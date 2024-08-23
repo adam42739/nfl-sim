@@ -127,7 +127,8 @@ $t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yar
 ### Rushing Play
 
 1.  Use $P_{RSF}$ and $P_F$ to determine whether a fumble lost will occur
-    _Example_: If the defense has $P_{RSF}$ value $d$ and the rusher has $P_{F}$ value $r$, then the probability of a fumble lost is ${d+r}\over{2}$
+
+    _Example_: If the defense has $P_{RSF}$ value $d$ and the rusher has $P_{F}$ value $r$, then the probability of a fumble lost is ${d+r}\over{2}$.
 
     If fumble lost:
 
