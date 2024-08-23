@@ -28,8 +28,6 @@ $P_R\in(0,1):$ Tendency for a rusher to receive a hand-off
 
 $Y_R(Y_L):$ Yards gained/lost; a random variable dependent on yard line
 
-$t_R(Y_R):$ Play length in seconds; a random variable dependant on yards gained/lost
-
 $P_F:$ Probability of a fumble lost
 
 ### Receivers
@@ -37,8 +35,6 @@ $P_F:$ Probability of a fumble lost
 $P_C:$ Probability of catching a target
 
 $Y_{AC}(Y_L):$ Yards after catch; a random variable dependent on yard line
-
-$t_P(Y_A,\ Y_{AC}):$ Play length after time to throw; a random variable dependant on yards attempted and yards after catch
 
 $P_F:$ Probability of a fumble lost
 
@@ -56,15 +52,17 @@ $P_C(Y_A,\ P):$ Probability of completing a pass; a function of attempted yards 
 
 $P_S:$ Probability of a sack given there was pressure from the defense
 
+$Y_R(Y_L):$ Yards allowed on a rush; a random variable dependent on yard line
+
+$Y_{AC}(Y_L):$ Yards after catch allowed on a reception; a random variable dependent on yard line
+
 $P_{PF}:$ Probability of forcing a passing fumble lost
 
 $P_{RSF}:$ Probability of forcing a rushing fumble lost
 
 $P_{RCF}:$ Probability of forcing a receiving fumble lost
 
-$Y_R(Y_L):$ Net return yards on a turnover; a random variable dependent on yard line
-
-$t_R(Y_R):$ Time of play on a turnover; a random variable dependent on net return yards
+$Y_{TR}(Y_L):$ Net return yards on a turnover; a random variable dependent on yard line
 
 ### Special Teams - Kicking/Punting
 
@@ -82,13 +80,9 @@ $P_{KR}:$ Probability of returning a kickoff
 
 $Y_{KR}:$ Yards gained on a kick return; a random variable
 
-$t_{KR}(Y_{KR}):$ Length of kick return play in seconds; a random variable dependent on kick return yards
-
 $P_{PR}:$ Probability of returning a punt
 
 $Y_{PR}(Y_L):$ Yards on a punt return; a random variable dependent on yard line
-
-$t_{PR}(Y_{PR}):$ Length of punt return play in seconds; a random variable dependent on punt return yards
 
 ### Kickers
 
@@ -96,9 +90,21 @@ $P_{EX}:$ Probability of making an extra point
 
 $P_{FG}(Y):$ Probability of making a FG; a function of yards
 
-$t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yards
-
 ### Decision Making
+
+## General League Attributes
+
+$t_R(Y_R):$ Time of play for a rushing play; a random variable dependant on yards gained/lost
+
+$t_P(Y_A,\ Y_{AC}):$ Time of play after time to throw on a passing play; a random variable dependant on yards attempted and yards after catch
+
+$t_{TR}(Y_{TR}):$ Time of play for a turnover; a random variable dependent on net return yards
+
+$t_{KR}(Y_{KR}):$ Time of play for a kick return play in seconds; a random variable dependent on kick return yards
+
+$t_{PR}(Y_{PR}):$ Time of play for a punt return play in seconds; a random variable dependent on punt return yards
+
+$t_{FG}(Y):$ Time of play for a field goal; random variable dependent on yards
 
 ## Simulation Procedure
 
@@ -132,12 +138,15 @@ $t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yar
 
     If fumble lost:
 
-    1. Use $Y_R(Y_L)$ to determine the net return yards by the defense
-    2. Use $t_R(Y_R)$ to determine the time to dedect from the playclock
+    1. Use $Y_{TR}(Y_L)$ to determine the net return yards by the defense
+    2. Use $t_{TR}(Y_{TR})$ to determine the time to dedect from the playclock
 
     If no fumble lost:
 
-    1. Use $Y_R(Y_L)$ to determine the yards gained or lost
+    1. Use rusher and defensive $Y_R(Y_L)$ to determine the yards gained or lost
+
+       _Example_: If $r$ is a sample from the rushers distribution and $d$ is a sample from the defenses, take the yards to be $r$ with probability ${1}\over{2}$ and $d$ with probability ${1}\over{2}$
+
     2. Use $t_R(Y_R)$ to determine the time to deduct from the playclock.
 
 ### Kickoffs
