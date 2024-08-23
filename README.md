@@ -56,7 +56,11 @@ $P_C(Y_A,\ P):$ Probability of completing a pass; a function of attempted yards 
 
 $P_S:$ Probability of a sack given there was pressure from the defense
 
-$P_F:$ Probability of forcing a fumble lost
+$P_{PF}:$ Probability of forcing a passing fumble lost
+
+$P_{RSF}:$ Probability of forcing a rushing fumble lost
+
+$P_{RCF}:$ Probability of forcing a receiving fumble lost
 
 $Y_R(Y_L):$ Return yards on a turnover; a random variable dependent on yard line
 
@@ -119,6 +123,10 @@ $t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yar
 ### Passing Play
 
 ### Rushing Play
+
+1. Use
+2. Use $Y_R(Y_L)$ to determine the yards gained or lost
+3. Use
 
 ### Kickoffs
 
