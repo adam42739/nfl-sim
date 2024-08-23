@@ -8,7 +8,7 @@ $P_P\in(0,1):$ Tendency for a passer to attempt a pass
 
 $P_R\in(0,1):$ Tendency for a passer to rush
 
-$P_H\in(0,1):$ Tendency for a passer to hand off to another rusher
+$P_H\in(0,1):$ Tendency for a passer to hand-off to another rusher
 
 $Y_A(Y_L):$ Yards attempted; a random variable dependent on yard line
 
@@ -23,6 +23,8 @@ $P_C(Y_A,\ P):$ Probability of completing a pass; a function of attempted yards 
 $P_I(Y_A,\ P):$ Probability of an interception; a random variable dependent on attempted yards and pressure from the defense
 
 ### Rushers
+
+$P_R\in(0,1):$ Tendency for a rusher to receive a hand-off
 
 $Y_R(Y_L):$ Yards gained/lost; a random variable dependent on yard line
 
@@ -98,14 +100,21 @@ $t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yar
 
 1. Use $P_P$, $P_R$, and $P_H$ to determine what the passer will do
 
-If passing play
-1. Go to [Passing Play](#passing-play)
+   If passing play
 
-If passer rushes
-1. sdf
+   1. Go to [Passing Play](#passing-play)
 
-If passer hands off to another rusher
-1. sdf
+   If passer rushes
+
+   1. Go to [Rushing Play](#rushing-play)
+
+   If passer hands off to another rusher
+
+   1. Use $P_R$ to determine which rusher will receive the hand-off
+
+      *Example*: if a team has two rushers A and B with $P_R$ values $a$ and $b$, then assign the probability of A receiving the hand-off as ${a}\over{a+b}$ and $B$ as ${b}\over{a+b}$
+
+   2. Go to [Rushing Play](#rushing-play)
 
 ### Passing Play
 
@@ -115,24 +124,28 @@ If passer hands off to another rusher
 
 1. Use $P_{KR}$ to determine whether the kick is returned or caught for a touchback
 
-    If returned:
-    1. Use $Y_{KR}$ to determine the return yards
-    2. Use $t_{KR}(Y_{KR})$ to determine the time to deduct from the playclock
+   If returned:
 
-    If touchback:
-    1. Ball is placed at the 25 yard line and the playclock remains unchanged
+   1. Use $Y_{KR}$ to determine the return yards
+   2. Use $t_{KR}(Y_{KR})$ to determine the time to deduct from the playclock
+
+   If touchback:
+
+   1. Ball is placed at the 25 yard line and the playclock remains unchanged
 
 ### Punts
 
 1. Use $P_{PR}$ to determine whether the punt is returned or caught for a fair catch
 
-    If returned:
-    1. Use $Y_{PR}$ to determine the return yards
-    2. Use $t_{PR}(Y_{PR})$ to determine the time to deduct from the playclock
+   If returned:
 
-    If fair catch:
-    1. Ball is placed at the spot of the fair catch
-    2. Use $t_{PR}(0)$ to determine the time to deduct from the playclock
+   1. Use $Y_{PR}$ to determine the return yards
+   2. Use $t_{PR}(Y_{PR})$ to determine the time to deduct from the playclock
+
+   If fair catch:
+
+   1. Ball is placed at the spot of the fair catch
+   2. Use $t_{PR}(0)$ to determine the time to deduct from the playclock
 
 ### Field Goals
 
@@ -145,5 +158,3 @@ Note: Missed field goal returns are excluded from the simulation
 
 1. Use $P_{EX}$ to determine whether the extra point is made
 2. No time is deducted from the playclock
-
-
