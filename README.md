@@ -2,35 +2,41 @@
 
 ## Player/Team Attributes
 
-### Passers
+### Passer Decision Making
 
-$P_P\in(0,1):$ Tendency for a passer to attempt a pass
+$P_P:$ Tendency for a passer to attempt a pass
 
-$P_R\in(0,1):$ Tendency for a passer to rush
+$P_R:$ Tendency for a passer to rush
 
-$P_H\in(0,1):$ Tendency for a passer to hand-off to another rusher
+$P_H:$ Tendency for a passer to hand-off to another rusher
+
+$P_{SC}:$ Tendency for a passer to scramble
+
+### Passer Throwing
 
 $Y_A(Y_L):$ Yards attempted; a random variable dependent on yard line
 
-$t_T(Y_A):$ Time to throw; a random variable dependent on yards attempted
+$P_{CN}(Y_A):$ Probability of completing a pass when not under pressure; a function of attempted yards
 
-$P_{FP}:$ Probability of a fumble lost given there was pressure
+$P_{IN}(Y_A):$ Probability of throwing an interception when not under pressure; a random variable dependent on attempted yards
 
-$P_{SP}:$ Probability of a sack given there was pressure from the defense
+$P_{CP}(Y_A):$ Probability of completing a pass when under pressure; a function of attempted yards
 
-$P_{SCP}:$ Probability of a scramble given there was pressure
+$P_{IP}(Y_A):$ Probability of throwing an interception when under pressure; a random variable dependent on attempted yards
 
-$P_F:$ Probability of a fumble lost given there was no pressure
+### Passer Control
 
-$P_{SC}:$ Probability of a scramble given there was no pressure
+$P_{FSC}:$ Probability of a fumble lost while scrambling
 
-$P_C(Y_A,\ P):$ Probability of completing a pass; a function of attempted yards and pressure from the defense
+$P_{FP}:$ Probability of a fumble lost while passing
 
-$P_I(Y_A,\ P):$ Probability of an interception; a random variable dependent on attempted yards and pressure from the defense
+$P_{SA}:$ Probability of a sack
+
+$Y_{SC}(Y_L):$ Yards gained/lost when scrambling; a random variable dependent on yard line
 
 ### Rushers
 
-$P_R\in(0,1):$ Tendency for a rusher to receive a hand-off
+$P_R:$ Tendency for a rusher to receive a hand-off
 
 $Y_R(Y_L):$ Yards gained/lost; a random variable dependent on yard line
 
@@ -44,19 +50,19 @@ $Y_{AC}(Y_L):$ Yards after catch; a random variable dependent on yard line
 
 $P_F:$ Probability of a fumble lost
 
-### O-Lines
-
-$P_P(t_T):$ Probability of allowing pressure to the QB; a function of time to throw
-
 ### Defenses
 
-$P_P(t_T):$ Probability of pressuring the QB; a function of time to throw
+$P_P:$ Probability of pressuring the passer
 
-$P_I(Y_A,\ P)$ Probability of intercepting a pass; a function of yards attempted and pressure
+$P_S:$ Probability of a sacking the passer
 
-$P_C(Y_A,\ P):$ Probability of completing a pass; a function of attempted yards and pressure from the defense
+$P_{IN}(Y_A)$ Probability of intercepting a pass when there is no pressure on the passer; a function of yards attempted
 
-$P_S:$ Probability of a sack given there was pressure from the defense
+$P_{CN}(Y_A):$ Probability of completing a pass when there is no pressure on the passer; a function of yards attempted
+
+$P_{IP}(Y_A)$ Probability of intercepting a pass when there is pressure on the passer; a function of yards attempted
+
+$P_{CP}(Y_A):$ Probability of completing a pass when there is pressure on the passer; a function of yards attempted
 
 $Y_R(Y_L):$ Yards allowed on a rush; a random variable dependent on yard line
 
@@ -139,7 +145,44 @@ $t_{FG}(Y):$ Time of play for a field goal; random variable dependent on yards
 1. Use $Y_A(Y_L)$ to determine the yard that will be attempted by the passer
 2. Use $t_T(Y_A)$ to determine the time the passer will need to throw
 3. Use $P_P(t_T)$ to determine whether or not the defense will pressure
-4. Use passer and defensive $P_S$ to determine whether the passer will be sacked
+
+   If pressure:
+
+   1. Use $P_{FP}$, $P_{SP}$, and $P_{SCP}$ to determine whether there will be a fumble lost, sack, scramble, or attempted pass
+
+      If fumble lost:
+
+      1. sdf
+
+      If sack:
+
+      1. sdf
+
+      If scramble:
+
+      1. sdf
+
+      If pass attempt:
+
+      1. Go to [Attempted Pass](#attempted-pass)
+
+   If no pressure:
+
+   1. Use $P_F$ and $P_{SC}$ to determine whether there will be a fumble lost, scramble, or attempted pass
+
+      If fumble lost:
+
+      1. sdf
+
+      If sack:
+
+      1. sdf
+
+      If pass attempt:
+
+      1. Go to [Attempted Pass](#attempted-pass)
+
+### Attempted Pass
 
 ### Rushing Play
 
