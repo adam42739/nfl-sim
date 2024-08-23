@@ -14,9 +14,15 @@ $Y_A(Y_L):$ Yards attempted; a random variable dependent on yard line
 
 $t_T(Y_A):$ Time to throw; a random variable dependent on yards attempted
 
-$P_S:$ Probability of a sack given there was pressure from the defense
+$P_{FP}:$ Probability of a fumble lost given there was pressure
 
-$P_F:$ Probability of a fumble lost
+$P_{SP}:$ Probability of a sack given there was pressure from the defense
+
+$P_{SCP}:$ Probability of a scramble given there was pressure
+
+$P_F:$ Probability of a fumble lost given there was no pressure
+
+$P_{SC}:$ Probability of a scramble given there was no pressure
 
 $P_C(Y_A,\ P):$ Probability of completing a pass; a function of attempted yards and pressure from the defense
 
@@ -130,6 +136,11 @@ $t_{FG}(Y):$ Time of play for a field goal; random variable dependent on yards
 
 ### Passing Play
 
+1. Use $Y_A(Y_L)$ to determine the yard that will be attempted by the passer
+2. Use $t_T(Y_A)$ to determine the time the passer will need to throw
+3. Use $P_P(t_T)$ to determine whether or not the defense will pressure
+4. Use passer and defensive $P_S$ to determine whether the passer will be sacked
+
 ### Rushing Play
 
 1.  Use $P_{RSF}$ and $P_F$ to determine whether a fumble lost will occur
@@ -145,7 +156,7 @@ $t_{FG}(Y):$ Time of play for a field goal; random variable dependent on yards
 
     1. Use rusher and defensive $Y_R(Y_L)$ to determine the yards gained or lost
 
-       _Example_: If $r$ is a sample from the rushers distribution and $d$ is a sample from the defenses, take the yards to be $r$ with probability ${1}\over{2}$ and $d$ with probability ${1}\over{2}$
+       _Example_: If $r$ is a randome sample from the rushers distribution and $d$ is a random sample from the defenses, take the yards to be $r$ with probability ${1}\over{2}$ and $d$ with probability ${1}\over{2}$
 
     2. Use $t_R(Y_R)$ to determine the time to deduct from the playclock.
 
