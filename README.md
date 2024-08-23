@@ -1,6 +1,6 @@
 # fantasy-football
 
-## Simulation Model
+## Player/Team Attributes
 
 ### Passers
 
@@ -74,6 +74,8 @@ $P_{KR}:$ Probability of returning a kickoff
 
 $Y_{KR}:$ Yards gained on a kick return; a random variable
 
+$t_{KR}(Y_{KR}):$ Length of return in seconds; a random variable dependent on return yards
+
 $P_{PR}:$ Probability of returning a punt
 
 $Y_{KR}(Y_L):$ Yards on a punt return; a random variable dependent on yard line
@@ -83,3 +85,26 @@ $Y_{KR}(Y_L):$ Yards on a punt return; a random variable dependent on yard line
 $P_{EX}:$ Probability of making an extra point
 
 $P_{FG}(Y):$ Probability of making a FG; a function of yards
+
+$t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yards
+
+### Decision Making
+
+## Simulation Procedure
+
+### Plays
+
+### Kickoffs
+
+1. Use $P_{KR}$ to determine whether the kick is returned or caught for a touchback
+
+If returned:
+1. Use $Y_{KR}$ to determine the return yards
+2. Use $t_{KR}(Y_{KR})$ to determine the time to deduct from the playclock
+
+If touchback:
+1. Ball is placed at the 25 yard line and the playclock remains unchanged
+
+### Punts
+
+### Field Goals
