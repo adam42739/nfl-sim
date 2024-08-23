@@ -96,6 +96,21 @@ $t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yar
 
 ### Plays
 
+1. Use $P_P$, $P_R$, and $P_H$ to determine what the passer will do
+
+If passing play
+1. Go to [Passing Play](#passing-play)
+
+If passer rushes
+1. sdf
+
+If passer hands off to another rusher
+1. sdf
+
+### Passing Play
+
+### Rushing Play
+
 ### Kickoffs
 
 1. Use $P_{KR}$ to determine whether the kick is returned or caught for a touchback
