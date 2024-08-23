@@ -4,7 +4,7 @@
 
 ### Passers
 
-$P_P\in(0,1):$ Tendency for a passer to attempt a pass
+$ P_P\in(0,1): $ Tendency for a passer to attempt a pass
 
 $P_R\in(0,1):$ Tendency for a passer to rush
 
