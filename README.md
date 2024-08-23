@@ -74,11 +74,13 @@ $P_{KR}:$ Probability of returning a kickoff
 
 $Y_{KR}:$ Yards gained on a kick return; a random variable
 
-$t_{KR}(Y_{KR}):$ Length of return in seconds; a random variable dependent on return yards
+$t_{KR}(Y_{KR}):$ Length of kick return play in seconds; a random variable dependent on kick return yards
 
 $P_{PR}:$ Probability of returning a punt
 
-$Y_{KR}(Y_L):$ Yards on a punt return; a random variable dependent on yard line
+$Y_{PR}(Y_L):$ Yards on a punt return; a random variable dependent on yard line
+
+$t_{PR}(Y_{PR}):$ Length of punt return play in seconds; a random variable dependent on punt return yards
 
 ### Kickers
 
@@ -98,13 +100,23 @@ $t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yar
 
 1. Use $P_{KR}$ to determine whether the kick is returned or caught for a touchback
 
-If returned:
-1. Use $Y_{KR}$ to determine the return yards
-2. Use $t_{KR}(Y_{KR})$ to determine the time to deduct from the playclock
+    If returned:
+    1. Use $Y_{KR}$ to determine the return yards
+    2. Use $t_{KR}(Y_{KR})$ to determine the time to deduct from the playclock
 
-If touchback:
-1. Ball is placed at the 25 yard line and the playclock remains unchanged
+    If touchback:
+    1. Ball is placed at the 25 yard line and the playclock remains unchanged
 
 ### Punts
+
+1. Use $P_{PR}$ to determine whether the punt is returned or caught for a fair catch
+
+    If returned:
+    1. Use $Y_{PR}$ to determine the return yards
+    2. Use $t_{PR}(Y_{PR})$ to determine the time to deduct from the playclock
+
+    If fair catch:
+    1. Ball is placed at the spot of the fair catch
+    2. Use $t_{PR}(0)$ to determine the time to deduct from the playclock
 
 ### Field Goals
