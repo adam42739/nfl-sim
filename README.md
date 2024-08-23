@@ -64,7 +64,7 @@ $P_{KR}:$ Probability of allowing a return on a kickoff
 
 $Y_{KR}:$ Yards allowed on a kick return; a random variable
 
-$P_(PR):$ Probability of allowing a return on a punt
+$P_{PR}:$ Probability of allowing a return on a punt
 
 $Y_{KR}(Y_L):$ Yards allowed on a punt return; a random variable dependent on yard line
 
@@ -74,7 +74,7 @@ $P_{KR}:$ Probability of returning a kickoff
 
 $Y_{KR}:$ Yards gained on a kick return; a random variable
 
-$P_(PR):$ Probability of returning a punt
+$P_{PR}:$ Probability of returning a punt
 
 $Y_{KR}(Y_L):$ Yards on a punt return; a random variable dependent on yard line
 
