@@ -62,7 +62,9 @@ $P_{RSF}:$ Probability of forcing a rushing fumble lost
 
 $P_{RCF}:$ Probability of forcing a receiving fumble lost
 
-$Y_R(Y_L):$ Return yards on a turnover; a random variable dependent on yard line
+$Y_R(Y_L):$ Net return yards on a turnover; a random variable dependent on yard line
+
+$t_R(Y_R):$ Time of play on a turnover; a random variable dependent on net return yards
 
 ### Special Teams - Kicking/Punting
 
@@ -104,19 +106,19 @@ $t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yar
 
 1. Use $P_P$, $P_R$, and $P_H$ to determine what the passer will do
 
-   If passing play
+   If passing play:
 
    1. Go to [Passing Play](#passing-play)
 
-   If passer rushes
+   If passer rushes:
 
    1. Go to [Rushing Play](#rushing-play)
 
-   If passer hands off to another rusher
+   If passer hands off to another rusher:
 
    1. Use $P_R$ to determine which rusher will receive the hand-off
 
-      *Example*: if a team has two rushers A and B with $P_R$ values $a$ and $b$, then assign the probability of A receiving the hand-off as ${a}\over{a+b}$ and $B$ as ${b}\over{a+b}$
+      *Example*: If a team has two rushers A and B with $P_R$ values $a$ and $b$, then assign the probability of A receiving the hand-off as ${a}\over{a+b}$ and $B$ as ${b}\over{a+b}$
 
    2. Go to [Rushing Play](#rushing-play)
 
@@ -124,9 +126,15 @@ $t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yar
 
 ### Rushing Play
 
-1. Use
-2. Use $Y_R(Y_L)$ to determine the yards gained or lost
-3. Use
+1. Use $P_{RSF}$ and $P_F$ to determine whether a fumble lost will occur
+*Example*: If the defense has $P_{RSF}$ value $d$ and the rusher has $P_{F}$ value $r$, then the probability of a fumble lost is ${d+r}\over{2}$ 
+
+    If fumble lost:
+    1. Use
+
+    If no fumble lost:
+    1. Use $Y_R(Y_L)$ to determine the yards gained or lost
+    2. Use $t_R(Y_R)$ to determine the time to deduct from the playclock.
 
 ### Kickoffs
 
