@@ -2,7 +2,7 @@
 
 ## Player/Team Attributes
 
-### Passer Decision Making
+### Passers - Decision Making
 
 $P_P:$ Tendency for a passer to attempt a pass
 
@@ -12,7 +12,7 @@ $P_H:$ Tendency for a passer to hand-off to another rusher
 
 $P_{SC}:$ Tendency for a passer to scramble
 
-### Passer Throwing
+### Passers - Throwing
 
 $Y_A(Y_L):$ Yards attempted; a random variable dependent on yard line
 
@@ -24,13 +24,13 @@ $P_{CP}(Y_A):$ Probability of completing a pass when under pressure; a function 
 
 $P_{IP}(Y_A):$ Probability of throwing an interception when under pressure; a random variable dependent on attempted yards
 
-### Passer Control
+### Passers - Control
 
 $P_{FSC}:$ Probability of a fumble lost while scrambling
 
 $P_{FP}:$ Probability of a fumble lost while passing
 
-$P_{SA}:$ Probability of a sack
+$P_{SA}:$ Probability of being sacked
 
 $Y_{SC}(Y_L):$ Yards gained/lost when scrambling; a random variable dependent on yard line
 
@@ -50,11 +50,15 @@ $Y_{AC}(Y_L):$ Yards after catch; a random variable dependent on yard line
 
 $P_F:$ Probability of a fumble lost
 
-### Defenses
+### Defenses - Passing
 
 $P_P:$ Probability of pressuring the passer
 
 $P_S:$ Probability of a sacking the passer
+
+$P_{SC}:$ Probability of forcing the passer into a scramble
+
+$P_{PF}:$ Probability of forcing a passing fumble lost
 
 $P_{IN}(Y_A)$ Probability of intercepting a pass when there is no pressure on the passer; a function of yards attempted
 
@@ -64,13 +68,15 @@ $P_{IP}(Y_A)$ Probability of intercepting a pass when there is pressure on the p
 
 $P_{CP}(Y_A):$ Probability of completing a pass when there is pressure on the passer; a function of yards attempted
 
+### Defenses - Rushing
+
 $Y_R(Y_L):$ Yards allowed on a rush; a random variable dependent on yard line
 
-$Y_{AC}(Y_L):$ Yards after catch allowed on a reception; a random variable dependent on yard line
-
-$P_{PF}:$ Probability of forcing a passing fumble lost
-
 $P_{RSF}:$ Probability of forcing a rushing fumble lost
+
+### Defenses - Receiving
+
+$Y_{AC}(Y_L):$ Yards after catch allowed on a reception; a random variable dependent on yard line
 
 $P_{RCF}:$ Probability of forcing a receiving fumble lost
 
