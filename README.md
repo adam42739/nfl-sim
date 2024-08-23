@@ -120,3 +120,15 @@ $t_{FG}(Y):$ Clock time used for a field goals; random variable dependent on yar
     2. Use $t_{PR}(0)$ to determine the time to deduct from the playclock
 
 ### Field Goals
+
+1. Use $P_{FG}(Y)$ to determine whether the field goal is good
+2. Use $t_{FG}(Y)$ to determine the time to deduct from the playclock
+
+Note: Missed field goal returns are excluded from the simulation
+
+### Extra Points
+
+1. Use $P_{EX}$ to determine whether the extra point is made
+2. No time is deducted from the playclock
+
+
