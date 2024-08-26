@@ -80,6 +80,8 @@ $Y_{AC}(Y_L):$ Yards after catch allowed on a reception; a random variable depen
 
 $P_{RCF}:$ Probability of forcing a receiving fumble lost
 
+### Defenses - Special
+
 $Y_{TR}(Y_L):$ Net return yards on a turnover; a random variable dependent on yard line
 
 ### Special Teams - Kicking/Punting
@@ -108,23 +110,31 @@ $P_{EX}:$ Probability of making an extra point
 
 $P_{FG}(Y):$ Probability of making a FG; a function of yards
 
-### Decision Making
+### Coaching
 
 ## General League Attributes
 
-$t_R(Y_R):$ Time of play for a rushing play; a random variable dependant on yards gained/lost
+$t_P(Y_A,\ Y_{AC}):$ Time of play for a passing play; a random variable dependant on yards attempted and yards after catch
 
-$t_P(Y_A,\ Y_{AC}):$ Time of play after time to throw on a passing play; a random variable dependant on yards attempted and yards after catch
+$t_R(Y_R):$ Time of play for a rushing play; a random variable dependant on yards gained/lost
 
 $t_{TR}(Y_{TR}):$ Time of play for a turnover; a random variable dependent on net return yards
 
-$t_{KR}(Y_{KR}):$ Time of play for a kick return play in seconds; a random variable dependent on kick return yards
+$t_{KR}(Y_{KR}):$ Time of play for a kick return play; a random variable dependent on kick return yards
 
-$t_{PR}(Y_{PR}):$ Time of play for a punt return play in seconds; a random variable dependent on punt return yards
+$t_{PR}(Y_{PR}):$ Time of play for a punt return play; a random variable dependent on punt return yards
 
-$t_{FG}(Y):$ Time of play for a field goal; random variable dependent on yards
+$t_{FG}(Y):$ Time of play for a field goal; a random variable dependent on yards
 
 ## Simulation Procedure
+
+### Merging Multiple Random Variables
+
+Given random variables $X_1,\ X_2,\ ...\ ,X_n$, we define merging these random variables as choosing one $X_i$ at random will equal probability and sampling from it.
+
+### Merging Multiple Probabilities
+
+Similarly to merging random variables, merging probabilities $p_1,\ p_2,\ ...\ ,p_n$, is defined as choosing one $p_i$ at random with equal probability. 
 
 ### Plays
 
@@ -192,7 +202,7 @@ $t_{FG}(Y):$ Time of play for a field goal; random variable dependent on yards
 
 ### Rushing Play
 
-1.  Use $P_{RSF}$ and $P_F$ to determine whether a fumble lost will occur
+1.  Use [$P_{RSF}$]() and $P_F$ to determine whether a fumble lost will occur
 
     _Example_: If the defense has $P_{RSF}$ value $d$ and the rusher has $P_{F}$ value $r$, then the probability of a fumble lost is ${d+r}\over{2}$.
 
@@ -211,12 +221,12 @@ $t_{FG}(Y):$ Time of play for a field goal; random variable dependent on yards
 
 ### Kickoffs
 
-1. Use $P_{KR}$ to determine whether the kick is returned or caught for a touchback
+1. Average [kicking](#special-teams---kickingpunting) and [returning](#special-teams---returning) $P_{KR}$ to determine whether the kick is returned or caught for a touchback
 
    If returned:
 
-   1. Use $Y_{KR}$ to determine the return yards
-   2. Use $t_{KR}(Y_{KR})$ to determine the time to deduct from the playclock
+   1. Use [$Y_{KR}$]() to determine the return yards
+   2. Use [$t_{KR}(Y_{KR})$](#general-league-attributes) to determine the time to deduct from the playclock
 
    If touchback:
 
@@ -224,26 +234,26 @@ $t_{FG}(Y):$ Time of play for a field goal; random variable dependent on yards
 
 ### Punts
 
-1. Use $P_{PR}$ to determine whether the punt is returned or caught for a fair catch
+1. Average [kicking](#special-teams---kickingpunting) and [returning](#special-teams---returning) $P_{PR}$ to determine whether the punt is returned or caught for a fair catch
 
    If returned:
 
    1. Use $Y_{PR}$ to determine the return yards
-   2. Use $t_{PR}(Y_{PR})$ to determine the time to deduct from the playclock
+   2. Use [$t_{PR}(Y_{PR})$](#general-league-attributes) to determine the time to deduct from the playclock
 
    If fair catch:
 
    1. Ball is placed at the spot of the fair catch
-   2. Use $t_{PR}(0)$ to determine the time to deduct from the playclock
+   2. Use [$t_{PR}(0)$](#general-league-attributes) to determine the time to deduct from the playclock
 
 ### Field Goals
 
-1. Use $P_{FG}(Y)$ to determine whether the field goal is good
-2. Use $t_{FG}(Y)$ to determine the time to deduct from the playclock
+1. Use [$P_{FG}(Y)$](#kickers) to determine whether the field goal is good
+2. Use [$t_{FG}(Y)$](#general-league-attributes) to determine the time to deduct from the playclock
 
 Note: Missed field goal returns are excluded from the simulation
 
 ### Extra Points
 
-1. Use $P_{EX}$ to determine whether the extra point is made
+1. Use [$P_{EX}$](#kickers) to determine whether the extra point is made
 2. No time is deducted from the playclock
