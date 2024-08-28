@@ -1,4 +1,4 @@
-# fantasy-football
+# nfl-sim
 
 ## Passing
 
