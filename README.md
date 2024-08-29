@@ -64,35 +64,35 @@
 1. [Kick Distance Model](#kick-distance-model)
 2. [Kick Return Decision Model](#kick-return-decision-model)
 
-   If `return == True`
+   **If** `return == True`
 
    1. [Kick Return Yards Model](#kick-return-yards-model)
 
-      If `td == True`
+      **If** `td == True`
 
       1. Add `6` points to the returning team's score
       2. Deduct `time` from the playclock
 
-      Else if `fumble == True`
+      **Else if** `fumble == True`
 
       1. [Kick Return Fumble Model](#kick-return-fumble-model)
 
-         If `td == True`
+         **If** `td == True`
 
          1. Add `6` points to the kicking team's score
 
-         Else
+         **Else**
 
          1. Place the ball at the appropriate yard line
 
       2. Deduct `time` from the playclock
 
-      Else
+      **Else**
 
       1. Place the ball at the appropriate yard line
       2. Deduct the `time` from the playclock
 
-   Else
+   **Else**
 
    1. Place the ball at the appropriate yard line per the NFL rules for the current (or simulated) year
    2. No time is dedeucted from the playclock
