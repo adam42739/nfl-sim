@@ -1,5 +1,7 @@
 # nfl-sim
 
+## Introduction
+
 ## Contents
 
 1. [Simulation](#simulation)
@@ -92,6 +94,9 @@
 
 #### Punt
 
+1. [Punt Model]
+2. 
+
 #### Extra Point
 
 1. [Extra Point Model](#extra-point-model)
@@ -103,29 +108,111 @@
 
 ## Models
 
+### Punt Model
+
+`model_p()`
+
+#### Parameters:
+
+#### Returns:
+
+``
+
 ### Field Goal Model
 
-`model_fg() -> made (bool), time (float)`
+`model_fg()`
+
+#### Parameters:
+
+#### Returns:
+
+&emsp;`made`: _bool_
+
+&emsp;&emsp;A boolean indicator for if the field goal was made.
+
+&emsp;`time`: _float_
+
+&emsp;&emsp;The time in seconds used during the field goal play.
 
 ### Extra Point Model
 
-`model_ep() -> made (bool)`
+`model_ep()`
+
+#### Parameters:
+
+#### Returns:
+
+&emsp;`made`: _bool_
+
+&emsp;&emsp;A boolean indicator for if the extra point was made.
 
 ### Kick Distance Model
 
-`model_kd() -> distance (float)`
+`model_kd()`
+
+#### Parameters:
+
+#### Returns:
+
+&emsp;`distance`: _float_
+
+&emsp;&emsp;The distance in yards the ball was kicked.
 
 ### Kick Return Decision Model
 
 `model_krd() -> return (bool)`
 
+#### Parameters:
+
+#### Returns:
+
+&emsp;`return`: _bool_
+
+&emsp;&emsp;A boolean indicator for if the kick was returned.
+
 ### Kick Return Yards Model
 
-`model_kry() -> yards (float), td (bool), time (float), fumble (bool)`
+`model_kry()`
+
+#### Parameters:
+
+#### Returns:
+
+&emsp;`yards`: _float_
+
+&emsp;&emsp;The distance in yards the ball was returned.
+
+&emsp;`td`: _bool_
+
+&emsp;&emsp;A boolean indicator for if the ball was returned for a touchdown.
+
+&emsp;`time`: _float_
+
+&emsp;&emsp;The time used during the kick return.
+
+&emsp;`fumble`: _bool_
+
+&emsp;&emsp;A boolean indicator for if the ball was fumbled and lost.
 
 ### Kick Return Fumble Model
 
 `model_krf() -> yards (float), td (bool), time (float)`
+
+#### Parameters:
+
+#### Returns:
+
+&emsp;`yards`: _float_
+
+&emsp;&emsp;Distance in yards the fumble was returned by kicking team.
+
+&emsp;`td`: _bool_
+
+&emsp;&emsp;A boolean indicator for if the kicking team returned the fumble for a touchdown.
+
+&emsp;`time`: _float_
+
+&emsp;&emsp;The time used during the fumble return.
 
 ## Attributes
 
