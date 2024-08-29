@@ -16,8 +16,13 @@
      - [2 Point Conversion](#2-point-conversion)
      - [Saftey Punt](#saftey-punt)
 2. [Models](#models)
-   - [Field Goal Model](#field-goal-model)
    - [Extra Point Model](#extra-point-model)
+   - [Field Goal Model](#field-goal-model)
+   - [Kick Distance Model](#kick-distance-model)
+   - [Kick Return Decision Model](#kick-return-decision-model)
+   - [Kick Return Fumble Model](#kick-return-fumble-model)
+   - [Kick Return Yards Model](#kick-return-yards-model)
+   - [Punt Model](#punt-model)
 3. [Attributes](#attributes)
    - [Passer](#passer)
      - [Decision Making](#decision-making)
@@ -78,13 +83,13 @@
 
          Else
 
-         1. Place the ball at the appropriate yard line (`65 - model_kd()->distance + model_kry()->yards - model_krf()->yards`)
+         1. Place the ball at the appropriate yard line
 
-      2. Deduct `model_kry()->time + model_krf()->time` from the playclock
+      2. Deduct `time` from the playclock
 
       Else
 
-      1. Place the ball at the appropriate yard line (`65 - model_kd()->distance + model_kry()->yards`)
+      1. Place the ball at the appropriate yard line
       2. Deduct the `time` from the playclock
 
    Else
@@ -94,8 +99,8 @@
 
 #### Punt
 
-1. [Punt Model]
-2. 
+1. [Punt Model](#punt-model)
+2.
 
 #### Extra Point
 
@@ -108,15 +113,17 @@
 
 ## Models
 
-### Punt Model
+### Extra Point Model
 
-`model_p()`
+`model_ep()`
 
 #### Parameters:
 
 #### Returns:
 
-``
+&emsp;**`made`: _bool_**
+
+&emsp;&emsp;A boolean indicator for if the extra point was made.
 
 ### Field Goal Model
 
@@ -126,25 +133,13 @@
 
 #### Returns:
 
-&emsp;`made`: _bool_
+&emsp;**`made`: _bool_**
 
 &emsp;&emsp;A boolean indicator for if the field goal was made.
 
-&emsp;`time`: _float_
+&emsp;**`time`: _float_**
 
 &emsp;&emsp;The time in seconds used during the field goal play.
-
-### Extra Point Model
-
-`model_ep()`
-
-#### Parameters:
-
-#### Returns:
-
-&emsp;`made`: _bool_
-
-&emsp;&emsp;A boolean indicator for if the extra point was made.
 
 ### Kick Distance Model
 
@@ -154,7 +149,7 @@
 
 #### Returns:
 
-&emsp;`distance`: _float_
+&emsp;**`distance`: _float_**
 
 &emsp;&emsp;The distance in yards the ball was kicked.
 
@@ -166,33 +161,9 @@
 
 #### Returns:
 
-&emsp;`return`: _bool_
+&emsp;**`return`: _bool_**
 
 &emsp;&emsp;A boolean indicator for if the kick was returned.
-
-### Kick Return Yards Model
-
-`model_kry()`
-
-#### Parameters:
-
-#### Returns:
-
-&emsp;`yards`: _float_
-
-&emsp;&emsp;The distance in yards the ball was returned.
-
-&emsp;`td`: _bool_
-
-&emsp;&emsp;A boolean indicator for if the ball was returned for a touchdown.
-
-&emsp;`time`: _float_
-
-&emsp;&emsp;The time used during the kick return.
-
-&emsp;`fumble`: _bool_
-
-&emsp;&emsp;A boolean indicator for if the ball was fumbled and lost.
 
 ### Kick Return Fumble Model
 
@@ -202,17 +173,55 @@
 
 #### Returns:
 
-&emsp;`yards`: _float_
+&emsp;**`yards`: _float_**
 
 &emsp;&emsp;Distance in yards the fumble was returned by kicking team.
 
-&emsp;`td`: _bool_
+&emsp;**`td`: _bool_**
 
 &emsp;&emsp;A boolean indicator for if the kicking team returned the fumble for a touchdown.
 
-&emsp;`time`: _float_
+&emsp;**`time`: _float_**
 
 &emsp;&emsp;The time used during the fumble return.
+
+### Kick Return Yards Model
+
+`model_kry()`
+
+#### Parameters:
+
+#### Returns:
+
+&emsp;**`yards`: _float_**
+
+&emsp;&emsp;The distance in yards the ball was returned.
+
+&emsp;**`td`: _bool_**
+
+&emsp;&emsp;A boolean indicator for if the ball was returned for a touchdown.
+
+&emsp;**`time`: _float_**
+
+&emsp;&emsp;The time used during the kick return.
+
+&emsp;**`fumble`: _bool_**
+
+&emsp;&emsp;A boolean indicator for if the ball was fumbled and lost.
+
+### Punt Model
+
+`model_p()`
+
+#### Parameters:
+
+#### Returns:
+
+&emsp;**`blocked`: _bool_**
+
+&emsp;**`yards`: _float_**
+
+&emsp;**`touchback`: _bool_**
 
 ## Attributes
 
