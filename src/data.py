@@ -1,4 +1,6 @@
 import nfl_data_py
+import datetime
+import pandas
 
 ####################################
 # define numpy.float_ to fix
@@ -8,8 +10,6 @@ import numpy
 
 numpy.float_ = numpy.float64
 ####################################
-
-import datetime
 
 
 def this_year():
@@ -32,5 +32,37 @@ def cache_pbp(years):
 def get_pbp(years):
     return nfl_data_py.import_pbp_data(years, cache=True, alt_path=CACHE_PATH)
 
+
+#    self,
+#         gsis,
+#         season,
+#         week,
+#         type,
+#         date,
+#         weekday,
+#         home,
+#         away,
+#         location,
+#         home_rest,
+#         away_rest,
+
+
 def get_schedule(years):
-    return nfl_data_py.import_schedules(years)
+    COLUMNS = [
+        "gsis",
+        "season",
+        "week",
+        "game_type",
+        "gameday",
+        "weekday",
+        "gametime",
+        "home_team",
+        "away_team",
+        "home_rest",
+        "away_rest",
+        "location",
+    ]
+    df = nfl_data_py.import_schedules(years)
+    df = df[COLUMNS]
+    df["gameday"] = pandas.to_datetime(df["gameday"])
+    return df
