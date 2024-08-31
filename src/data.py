@@ -33,20 +33,6 @@ def get_pbp(years):
     return nfl_data_py.import_pbp_data(years, cache=True, alt_path=CACHE_PATH)
 
 
-#    self,
-#         gsis,
-#         season,
-#         week,
-#         type,
-#         date,
-#         weekday,
-#         home,
-#         away,
-#         location,
-#         home_rest,
-#         away_rest,
-
-
 def get_schedule(years):
     COLUMNS = [
         "gsis",
