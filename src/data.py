@@ -25,15 +25,12 @@ THIS_YEAR = this_year()
 CACHE_PATH = "pbp_cache/"
 
 
-def cache(years=[THIS_YEAR]):
+def cache_pbp(years):
     nfl_data_py.cache_pbp(years, alt_path=CACHE_PATH)
 
 
-def get(years):
+def get_pbp(years):
     return nfl_data_py.import_pbp_data(years, cache=True, alt_path=CACHE_PATH)
 
-
-df = get([2023])
-new = df[["time_to_throw", "sack", "was_pressure"]]
-new = new[new["sack"] == 1]
-print(new.head(10))
+def get_schedule(years):
+    return nfl_data_py.import_schedules(years)
