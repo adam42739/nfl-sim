@@ -11,6 +11,10 @@ import numpy
 numpy.float_ = numpy.float64
 ####################################
 
+CACHE_PATH = "pbp_cache/"
+
+START_YEAR = 1999
+
 
 def this_year():
     today = datetime.datetime.today()
@@ -22,8 +26,6 @@ def this_year():
 
 THIS_YEAR = this_year()
 
-CACHE_PATH = "pbp_cache/"
-
 
 def cache_pbp(years):
     nfl_data_py.cache_pbp(years, alt_path=CACHE_PATH)
@@ -33,7 +35,7 @@ def get_pbp(years):
     return nfl_data_py.import_pbp_data(years, cache=True, alt_path=CACHE_PATH)
 
 
-def get_schedule(years):
+def get_schedules(years):
     COLUMNS = [
         "gsis",
         "season",
