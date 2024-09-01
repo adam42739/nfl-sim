@@ -1,10 +1,23 @@
-import data
+import nfl_data
+import json
+import playerbase
+
+
+def get_abbrs():
+    PATH = "src/abbrs.json"
+    with open(PATH, "r") as file:
+        abbrs = json.load(file)
+    return abbrs
 
 
 class LeagueSim:
     def __init__(self):
-        self._load_schedules()
-        self.cur_season = data.START_YEAR
+        years = [year for year in range(nfl_data.START_YEAR, nfl_data.THIS_YEAR + 1)]
+        self.players = playerbase.load_playersbase()
+        self.rosters = nfl_data.get_rosters(years)
+        self.schedules = nfl_data.get_schedules(years)
+        self.abbrs = get_abbrs()
+        self.cur_season = nfl_data.START_YEAR
         self.cur_week = 1
         self.cur_sb_week = self._season_sb_week()
         self.fin_season = self._data_final_season()
@@ -16,8 +29,8 @@ class LeagueSim:
         return self.schedules[self.schedules["season"] == self.cur_season]["week"].max()
 
     def _load_schedules(self):
-        years = [year for year in range(data.START_YEAR, data.THIS_YEAR + 1)]
-        self.schedules = data.get_schedules(years)
+        years = [year for year in range(nfl_data.START_YEAR, nfl_data.THIS_YEAR + 1)]
+        self.schedules = nfl_data.get_schedules(years)
 
     def sim_week(self):
         week_mask = (self.schedules["season"] == self.cur_season) & (
@@ -31,8 +44,11 @@ class LeagueSim:
             else:
                 self._advance_season()
         else:
-            self.cur_week += 1
+            self._advance_week()
         return True
+
+    def _advance_week(self):
+        self.cur_week += 1
 
     def _sim_game(self, game):
         # sim game

@@ -28,11 +28,11 @@ THIS_YEAR = _this_year()
 PBP_CACHE_PATH = "pbp_cache/"
 
 
-def cache_pbp(year):
+def _cache_pbp(year):
     nfl_data_py.cache_pbp([year], alt_path=PBP_CACHE_PATH)
 
 
-def get_pbp_metadata():
+def _get_pbp_metadata():
     path = PBP_CACHE_PATH + "metadata.json"
     metadata = {}
     with open(path, "r") as file:
@@ -40,27 +40,27 @@ def get_pbp_metadata():
     return metadata
 
 
-def write_pbp_metadata(metadata):
+def _write_pbp_metadata(metadata):
     path = PBP_CACHE_PATH + "metadata.json"
     with open(path, "w") as file:
         json.dump(metadata, file)
 
 
 def get_pbp(years):
-    metadata = get_pbp_metadata()
+    metadata = _get_pbp_metadata()
     dfs = []
     for year in years:
         if year == THIS_YEAR:
             dfs.append(nfl_data_py.import_pbp_data([year]))
         else:
             if str(year) not in metadata:
-                cache_pbp(year)
+                _cache_pbp(year)
                 metadata[year] = None
             dfs.append(
                 nfl_data_py.import_pbp_data([year], cache=True, alt_path=PBP_CACHE_PATH)
             )
     df = pandas.concat(dfs, ignore_index=True, sort=False)
-    write_pbp_metadata(metadata)
+    _write_pbp_metadata(metadata)
     return df
 
 
@@ -126,7 +126,7 @@ def get_players():
 ROSTER_CACHE_PATH = "roster_cache/"
 
 
-def cache_rosters(year):
+def _cache_rosters(year):
     COLUMNS_KEEP = ["team", "season", "week", "player_id"]
     df = nfl_data_py.import_weekly_rosters([year])
     df = df[COLUMNS_KEEP]
@@ -134,7 +134,7 @@ def cache_rosters(year):
     df.to_csv(path)
 
 
-def get_rosters_metadata():
+def _get_rosters_metadata():
     path = ROSTER_CACHE_PATH + "metadata.json"
     metadata = {}
     with open(path, "r") as file:
@@ -142,24 +142,24 @@ def get_rosters_metadata():
     return metadata
 
 
-def write_roster_metadata(metadata):
+def _write_roster_metadata(metadata):
     path = ROSTER_CACHE_PATH + "metadata.json"
     with open(path, "w") as file:
         json.dump(metadata, file)
 
 
 def get_rosters(years):
-    metadata = get_rosters_metadata()
+    metadata = _get_rosters_metadata()
     dfs = []
     for year in years:
         if year == THIS_YEAR:
             dfs.append(nfl_data_py.import_weekly_rosters([year]))
         else:
             if str(year) not in metadata:
-                cache_rosters(year)
+                _cache_rosters(year)
                 metadata[year] = None
             path = ROSTER_CACHE_PATH + str(year) + ".csv"
             dfs.append(pandas.read_csv(path))
     df = pandas.concat(dfs, ignore_index=True, sort=False)
-    write_roster_metadata(metadata)
+    _write_roster_metadata(metadata)
     return df
