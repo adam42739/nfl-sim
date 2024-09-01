@@ -1,14 +1,10 @@
 import nflsim.nfl_data as nfl_data
-import json
 import nflsim.playerbase as playerbase
-import os
+import nflsim.teambase as teambase
 
 
-def _get_abbrs():
-    PATH = os.path.dirname(__file__) + "/abbrs.json"
-    with open(PATH, "r") as file:
-        abbrs = json.load(file)
-    return abbrs
+def update_teambase_rosters(teambase, rosters, season, week):
+    return teambase
 
 
 class LeagueSim:
@@ -17,11 +13,14 @@ class LeagueSim:
         self.players = playerbase.load_playersbase()
         self.rosters = nfl_data.get_rosters(years)
         self.schedules = nfl_data.get_schedules(years)
-        self.abbrs = _get_abbrs()
         self.cur_season = nfl_data.START_YEAR
         self.cur_week = 1
         self.cur_sb_week = self._season_sb_week()
         self.fin_season = self._data_final_season()
+        self.teambase = teambase.get_teambase()
+        self.teambase = update_teambase_rosters(
+            self.teambase, self.rosters, self.cur_season, self.cur_week
+        )
 
     def _data_final_season(self):
         return self.schedules["season"].max()

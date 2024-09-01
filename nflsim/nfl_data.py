@@ -14,7 +14,7 @@ numpy.float_ = numpy.float64
 ####################################
 
 
-def _to_indexed_dict(pd_dict, obj_key):
+def to_indexed_dict(pd_dict, obj_key):
     indexed_dict = {}
     for key in pd_dict:
         if key != obj_key:
