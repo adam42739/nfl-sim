@@ -13,6 +13,21 @@ import numpy
 numpy.float_ = numpy.float64
 ####################################
 
+
+def _to_indexed_dict(pd_dict, obj_key):
+    indexed_dict = {}
+    for key in pd_dict:
+        if key != obj_key:
+            indexed_dict[key] = {}
+            for id in pd_dict[key]:
+                indexed_dict[key][pd_dict[key][id]] = None
+        else:
+            for id_key in indexed_dict:
+                for id in pd_dict[obj_key]:
+                    indexed_dict[id_key][pd_dict[id_key][id]] = pd_dict[obj_key][id]
+    return indexed_dict
+
+
 START_YEAR = 2002
 
 
@@ -167,4 +182,11 @@ def get_rosters(years):
             dfs.append(pandas.read_csv(path))
     df = pandas.concat(dfs, ignore_index=True, sort=False)
     _write_roster_metadata(metadata)
+    return df
+
+
+def get_teams():
+    COLUMNS_KEEP = ["team_abbr", "team_name", "team_id", "team_conf", "team_division"]
+    df = nfl_data_py.import_team_desc()
+    df = df[COLUMNS_KEEP]
     return df
