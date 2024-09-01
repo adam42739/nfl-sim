@@ -1,4 +1,6 @@
 /_explo
-/nfl-sim-env
+/env
 /pbp_cache
 /src/__pycache__
+main.py
+/roster_cache
