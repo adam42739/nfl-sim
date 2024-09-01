@@ -1,6 +1,6 @@
 /_explo
 /env
-/pbp_cache
-/src/__pycache__
+/nflsim/pbp_cache
+/nflsim/__pycache__
 main.py
-/roster_cache
+/nflsim/roster_cache
