@@ -12,7 +12,7 @@ import numpy
 numpy.float_ = numpy.float64
 ####################################
 
-START_YEAR = 2015
+START_YEAR = 2002
 
 
 def _this_year():
