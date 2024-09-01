@@ -3,6 +3,7 @@ import datetime
 import pandas
 import json
 import os
+from nflsim.nfl_data_cols import *
 
 ####################################
 # define numpy.float_ to fix
@@ -86,70 +87,90 @@ def get_pbp(years):
 
 def get_schedules(years):
     COLUMNS = [
-        "gsis",
-        "season",
-        "week",
-        "game_type",
-        "gameday",
-        "weekday",
-        "gametime",
-        "home_team",
-        "away_team",
-        "home_rest",
-        "away_rest",
-        "location",
+        COLS.SCHEDULES.GSIS,
+        COLS.SCHEDULES.SEASON,
+        COLS.SCHEDULES.WEEK,
+        COLS.SCHEDULES.GAME_TYPE,
+        COLS.SCHEDULES.GAMEDAY,
+        COLS.SCHEDULES.WEEKDAY,
+        COLS.SCHEDULES.GAMETIME,
+        COLS.SCHEDULES.HOME_TEAM,
+        COLS.SCHEDULES.AWAY_TEAM,
+        COLS.SCHEDULES.HOME_REST,
+        COLS.SCHEDULES.AWAY_REST,
+        COLS.SCHEDULES.LOCATION,
     ]
     df = nfl_data_py.import_schedules(years)
     df = df[COLUMNS]
-    df["gameday"] = pandas.to_datetime(df["gameday"])
+    df[COLS.SCHEDULES.GAMEDAY] = pandas.to_datetime(df[COLS.SCHEDULES.GAMEDAY])
     return df
 
 
-def get_players():
-    COLUMNS_KEEP = [
-        "mfl_id",
-        "sportradar_id",
-        "fantasypros_id",
-        "gsis_id",
-        "pff_id",
-        "sleeper_id",
-        "nfl_id",
-        "espn_id",
-        "yahoo_id",
-        "fleaflicker_id",
-        "cbs_id",
-        "pfr_id",
-        "cfbref_id",
-        "rotowire_id",
-        "rotoworld_id",
-        "ktc_id",
-        "stats_id",
-        "stats_global_id",
-        "fantasy_data_id",
-        "swish_id",
-        "name",
-        "position",
-        "birthdate",
-        "draft_year",
-        "draft_round",
-        "draft_pick",
-        "height",
-        "weight",
-        "college",
+PLAYERS_COLUMNS_KEEP = [
+    COLS.ROSTERS.PLAYER_ID,
+    COLS.ROSTERS.PLAYER_NAME,
+    COLS.ROSTERS.FIRST_NAME,
+    COLS.ROSTERS.LAST_NAME,
+    COLS.ROSTERS.POSITION,
+    COLS.ROSTERS.HEIGHT,
+    COLS.ROSTERS.WEIGHT,
+    COLS.ROSTERS.BIRTH_DATE,
+    COLS.ROSTERS.DRAFT_CLUB,
+    COLS.ROSTERS.ENTRY_YEAR,
+]
+
+
+def get_players(rosters, drafts):
+    df = rosters[PLAYERS_COLUMNS_KEEP]
+    df.drop_duplicates()
+    df[COLS.ROSTERS.BIRTH_DATE] = pandas.to_datetime(df[COLS.ROSTERS.BIRTH_DATE])
+    df = pandas.merge(
+        df,
+        drafts,
+        how="left",
+        left_on=[
+            COLS.ROSTERS.PLAYER_NAME,
+            COLS.ROSTERS.DRAFT_CLUB,
+            COLS.ROSTERS.ENTRY_YEAR,
+            COLS.ROSTERS.POSITION,
+        ],
+        right_on=[
+            COLS.DRAFTS.PFR_PLAYER_NAME,
+            COLS.DRAFTS.TEAM,
+            COLS.DRAFTS.SEASON,
+            COLS.DRAFTS.POSITION,
+        ],
+    )
+    COLUMNS_DROP = [
+        COLS.ROSTERS.DRAFT_CLUB,
+        COLS.ROSTERS.ENTRY_YEAR,
+        COLS.DRAFTS.PFR_PLAYER_NAME,
+        COLS.DRAFTS.TEAM,
     ]
-    df = nfl_data_py.import_ids()
-    df = df[COLUMNS_KEEP]
-    df["birthdate"] = pandas.to_datetime(df["birthdate"])
+    df = df.drop(COLUMNS_DROP, axis=1)
     return df
 
 
 ROSTER_CACHE_PATH = "/roster_cache/"
 
+ROSTERS_COLUMNS_KEEP = [
+    COLS.ROSTERS.TEAM,
+    COLS.ROSTERS.SEASON,
+    COLS.ROSTERS.WEEK,
+    COLS.ROSTERS.PLAYER_ID,
+]
+
+
+def _load_rosters(year):
+    df = nfl_data_py.import_weekly_rosters([year])
+    COLUMNS_KEEP = ROSTERS_COLUMNS_KEEP + PLAYERS_COLUMNS_KEEP
+    COLUMNS_KEEP = list(set(COLUMNS_KEEP))
+    df = df[COLUMNS_KEEP]
+    return df
+
 
 def _cache_rosters(year):
-    COLUMNS_KEEP = ["team", "season", "week", "player_id"]
-    df = nfl_data_py.import_weekly_rosters([year])
-    df = df[COLUMNS_KEEP]
+    df = _load_rosters(year)
     path = os.path.dirname(__file__) + ROSTER_CACHE_PATH + str(year) + ".csv"
     df.to_csv(path)
 
@@ -173,7 +194,8 @@ def get_rosters(years):
     dfs = []
     for year in years:
         if year == THIS_YEAR:
-            dfs.append(nfl_data_py.import_weekly_rosters([year]))
+            df = _load_rosters(year)
+            dfs.append(df)
         else:
             if str(year) not in metadata:
                 _cache_rosters(year)
@@ -186,7 +208,27 @@ def get_rosters(years):
 
 
 def get_teams():
-    COLUMNS_KEEP = ["team_abbr", "team_name", "team_id", "team_conf", "team_division"]
+    COLUMNS_KEEP = [
+        COLS.TEAMS.ABBR,
+        COLS.TEAMS.NAME,
+        COLS.TEAMS.ID,
+        COLS.TEAMS.CONF,
+        COLS.TEAMS.DIVISION,
+    ]
     df = nfl_data_py.import_team_desc()
     df = df[COLUMNS_KEEP]
+    return df
+
+
+def get_drafts(years):
+    COLUMNS = [
+        COLS.DRAFTS.SEASON,
+        COLS.DRAFTS.ROUND,
+        COLS.DRAFTS.PICK,
+        COLS.DRAFTS.PFR_PLAYER_NAME,
+        COLS.DRAFTS.POSITION,
+        COLS.DRAFTS.TEAM,
+    ]
+    df = nfl_data_py.import_draft_picks(years)
+    df = df[COLUMNS]
     return df

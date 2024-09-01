@@ -1,23 +1,23 @@
 import nflsim.nfl_data as nfl_data
+from nflsim.nfl_data_cols import *
 
 
-def load_playersbase():
+def load_playersbase(rosters, drafts):
     COLUMNS_DEL = [
-        "name",
-        "position",
-        "birthdate",
-        "draft_year",
-        "draft_round",
-        "draft_pick",
-        "height",
-        "weight",
-        "college",
+        COLS.ROSTERS.PLAYER_NAME,
+        COLS.ROSTERS.FIRST_NAME,
+        COLS.ROSTERS.LAST_NAME,
+        COLS.ROSTERS.POSITION,
+        COLS.ROSTERS.BIRTH_DATE,
+        COLS.DRAFTS.SEASON,
+        COLS.DRAFTS.ROUND,
+        COLS.DRAFTS.PICK,
+        COLS.ROSTERS.HEIGHT,
+        COLS.ROSTERS.WEIGHT,
     ]
-    INDEXES = ["gsis_id", "player_obj"]
-    player_df = nfl_data.get_players()
+    player_df = nfl_data.get_players(rosters, drafts)
     player_df["player_obj"] = player_df.apply(_player_from_row, axis=1)
     player_df = player_df.drop(COLUMNS_DEL, axis=1)
-    player_df = player_df[INDEXES]
     player_dict = player_df.to_dict()
     player_dict = nfl_data.to_indexed_dict(player_dict, "player_obj")
     return player_dict
@@ -34,12 +34,13 @@ class Player:
         return
 
     def from_row(self, row):
-        self.name = row["name"]
-        self.position = row["position"]
-        self.birthdate = row["birthdate"]
-        self.draft_year = row["draft_year"]
-        self.draft_round = row["draft_round"]
-        self.draft_pick = row["draft_pick"]
-        self.height = row["height"]
-        self.weight = row["weight"]
-        self.college = row["college"]
+        self.name = row[COLS.ROSTERS.PLAYER_NAME]
+        self.first_name = row[COLS.ROSTERS.FIRST_NAME]
+        self.last_name = row[COLS.ROSTERS.LAST_NAME]
+        self.position = row[COLS.ROSTERS.POSITION]
+        self.birthdate = row[COLS.ROSTERS.BIRTH_DATE]
+        self.draft_year = row[COLS.DRAFTS.SEASON]
+        self.draft_round = row[COLS.DRAFTS.ROUND]
+        self.draft_pick = row[COLS.DRAFTS.PICK]
+        self.height = row[COLS.ROSTERS.HEIGHT]
+        self.weight = row[COLS.ROSTERS.WEIGHT]
