@@ -13,13 +13,17 @@ def load_playersbase():
         "weight",
         "college",
     ]
+    INDEXES = ["gsis_id", "player_obj"]
     player_df = nfl_data.get_players()
-    player_df["player_obj"] = player_df.apply(player_from_row, axis=1)
+    player_df["player_obj"] = player_df.apply(_player_from_row, axis=1)
     player_df = player_df.drop(COLUMNS_DEL, axis=1)
-    return player_df
+    player_df = player_df[INDEXES]
+    player_dict = player_df.to_dict()
+    player_dict = nfl_data.to_indexed_dict(player_dict, "player_obj")
+    return player_dict
 
 
-def player_from_row(row):
+def _player_from_row(row):
     plyr = Player()
     plyr.from_row(row)
     return plyr
