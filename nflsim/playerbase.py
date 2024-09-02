@@ -49,6 +49,7 @@ def load_playersbase(rosters, drafts):
         for line in reader:
             player = Player()
             player.from_row(
+                line[1],
                 line[2],
                 line[3],
                 line[4],
@@ -76,6 +77,7 @@ class Player:
 
     def from_row(
         self,
+        id,
         name,
         first_name,
         last_name,
@@ -87,6 +89,7 @@ class Player:
         height,
         weight,
     ):
+        self.id = id
         self.name = name
         self.first_name = first_name
         self.last_name = last_name
