@@ -4,6 +4,8 @@ import nflsim.teambase as teambase
 from nflsim.nfl_data_cols import *
 import os
 import json
+import nflsim.game_sim as game_sim
+import pandas
 
 
 def _player_add_team(row, team, playerbase):
@@ -39,11 +41,48 @@ def _get_confs():
     return confs_json
 
 
+INIT_STANDINGS = {
+    "NFL Team": {},
+    "W": {},
+    "L": {},
+    "T": {},
+    "PCT": {},
+    "PF": {},
+    "PA": {},
+    "Net Pts": {},
+    "Home": {},
+    "Away": {},
+    "Div": {},
+    "Conf": {},
+    "Non-Conf": {},
+    "Strk": {},
+}
+
+
+INIT_STANDINGS_ROW = {
+    "NFL Team": "",
+    "W": 0,
+    "L": 0,
+    "T": 0,
+    "PCT": 0,
+    "PF": 0,
+    "PA": 0,
+    "Net Pts": 0,
+    "Home": "0-0-0",
+    "Away": "0-0-0",
+    "Div": "0-0-0",
+    "Conf": "0-0-0",
+    "Non-Conf": "0-0-0",
+    "Strk": "-",
+}
+
+
 class DivisionSim:
     def __init__(self):
         return
 
-    def from_teambase(self, conf, div, teambase):
+    def from_teambase(self, conf, div, teambase, league):
+        self.league = league
         self.conf = conf
         self.div = div
         self.teams = {COLS.TEAMS.ABBR: {}, COLS.TEAMS.ID: {}}
@@ -56,18 +95,33 @@ class DivisionSim:
             if team.conf == conf and team.division == div:
                 self.teams[COLS.TEAMS.ID][id] = team
 
+    def get_standings(self):
+        mask = self.league.standings.index.isin(self.teams[COLS.TEAMS.ID].keys())
+        return self.league.standings[mask]
+
 
 class ConfSim:
     def __init__(self):
         return
 
-    def from_teambase(self, abbr, conf, teambase):
+    def from_teambase(self, abbr, conf, teambase, league):
+        self.league = league
         self.abbr = abbr
         self.name = conf["name"]
         self.divs = {}
         for div in conf["divs"]:
             self.divs[div] = DivisionSim()
-            self.divs[div].from_teambase(abbr, div, teambase)
+            self.divs[div].from_teambase(abbr, div, teambase, league)
+        self._load_team_ids()
+
+    def _load_team_ids(self):
+        self.teams = []
+        for div in self.divs:
+            self.teams += self.divs[div].teams[COLS.TEAMS.ID].keys()
+
+    def get_standings(self):
+        mask = self.league.standings.index.isin(self.teams)
+        return self.league.standings[mask]
 
 
 class LeagueSim:
@@ -78,12 +132,16 @@ class LeagueSim:
         self.cur_sb_week = self._season_sb_week()
         self.fin_season = self._data_final_season()
         self._load_confs()
+        self._load_standings()
+
+    def _load_standings(self):
+        self._reset_standings()
 
     def _load_confs(self):
         confs_json = _get_confs()
-        self.confs = {"AFC": ConfSim(), "NFL": ConfSim()}
-        self.confs["AFC"].from_teambase("AFC", confs_json["AFC"], self.teambase)
-        self.confs["NFC"].from_teambase("NFC", confs_json["NFC"], self.teambase)
+        self.confs = {"AFC": ConfSim(), "NFC": ConfSim()}
+        self.confs["AFC"].from_teambase("AFC", confs_json["AFC"], self.teambase, self)
+        self.confs["NFC"].from_teambase("NFC", confs_json["NFC"], self.teambase, self)
 
     def _load_assets(self):
         years = [year for year in range(nfl_data.START_YEAR, nfl_data.THIS_YEAR + 1)]
@@ -126,11 +184,21 @@ class LeagueSim:
     def _advance_week(self):
         self.cur_week += 1
 
-    def _sim_game(self, game):
-        # sim game
-        return
+    def _sim_game(self, row):
+        game = game_sim.GameSim()
+        game.from_row(row, self)
+        game.sim()
 
     def _advance_season(self):
         self.cur_season += 1
         self.cur_week = 1
         self.cur_sb_week = self.season_sb_week()
+        self._reset_standings()
+
+    def _reset_standings(self):
+        self.standings = pandas.DataFrame(INIT_STANDINGS)
+        for id in self.teambase[COLS.TEAMS.ID]:
+            team = self.teambase[COLS.TEAMS.ID][id]
+            series = pandas.Series(INIT_STANDINGS_ROW)
+            series["NFL Team"] = team.name_at_year(self.cur_season)
+            self.standings.loc[id] = series
