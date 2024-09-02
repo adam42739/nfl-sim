@@ -5,14 +5,9 @@ from nflsim.nfl_data_cols import *
 
 
 def _player_add_team(row, team, playerbase):
-    if COLS.ROSTERS.PLAYER_ID not in team.players:
-        team.players[COLS.ROSTERS.PLAYER_ID] = {}
-    try:
-        team.players[COLS.ROSTERS.PLAYER_ID][row[COLS.ROSTERS.PLAYER_ID]] = playerbase[
-            COLS.ROSTERS.PLAYER_ID
-        ][row[COLS.ROSTERS.PLAYER_ID]]
-    except:
-        print("FAIL")
+    id = row[COLS.ROSTERS.PLAYER_ID]
+    if not isinstance(id, float):
+        team.players[id] = playerbase[id]
 
 
 def update_teambase_rosters(teambase, rosters, playerbase, season, week):
@@ -21,6 +16,7 @@ def update_teambase_rosters(teambase, rosters, playerbase, season, week):
     )
     rosters_week = rosters[mask]
     for abbr in teambase[COLS.TEAMS.ABBR]:
+        teambase[COLS.TEAMS.ABBR][abbr].players = {}
         mask = rosters_week[COLS.ROSTERS.TEAM] == abbr
         team_roster = rosters_week[mask]
         team_roster.apply(

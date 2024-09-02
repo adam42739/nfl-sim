@@ -1,6 +1,5 @@
 import nflsim.nfl_data as nfl_data
 from nflsim.nfl_data_cols import *
-import time
 import os
 import csv
 
@@ -21,17 +20,8 @@ def load_playersbase(rosters, drafts):
         COLS.ROSTERS.HEIGHT,
         COLS.ROSTERS.WEIGHT,
     ]
-    ti = time.time()
     player_df = nfl_data.get_players(rosters, drafts)
-    tf = time.time()
-    print("nfl_data.get_players(): ", tf - ti)
-
-    ti = time.time()
     player_df = player_df.drop_duplicates()
-    tf = time.time()
-    print("drop_dups(): ", tf - ti)
-
-    ti = time.time()
     cache_path = os.path.dirname(__file__) + MISC_CACHE_PLAYERBASE
     COLUMNS_ORDER = [
         COLS.ROSTERS.PLAYER_ID,
@@ -48,11 +38,7 @@ def load_playersbase(rosters, drafts):
     ]
     player_df = player_df.reindex(COLUMNS_ORDER, axis="columns")
     player_df.to_csv(cache_path)
-    tf = time.time()
-    print("to_dict(): ", tf - ti)
-
     player_dict = {}
-    ti = time.time()
     with open(cache_path, "r") as file:
         reader = csv.reader(file)
         next(reader)
@@ -71,8 +57,6 @@ def load_playersbase(rosters, drafts):
                 line[11],
             )
             player_dict[line[1]] = player
-    tf = time.time()
-    print("load_dict():", tf - ti)
     return player_dict
 
 
