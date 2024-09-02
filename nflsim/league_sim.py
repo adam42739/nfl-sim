@@ -101,31 +101,7 @@ class LeagueSim:
         self._load_stats()
 
     def _load_stats(self):
-        self.stats = INITS.STATS.copy()
-        self.stats[COLS.STAT_CATEGORIES.PASSING] = pandas.DataFrame(
-            INITS.STAT_TYPES.PASSING
-        )
-        self.stats[COLS.STAT_CATEGORIES.RUSHING] = pandas.DataFrame(
-            INITS.STAT_TYPES.RUSHING
-        )
-        self.stats[COLS.STAT_CATEGORIES.RECEIVING] = pandas.DataFrame(
-            INITS.STAT_TYPES.RECEIVING
-        )
-        self.stats[COLS.STAT_CATEGORIES.DEFENSE] = pandas.DataFrame(
-            INITS.STAT_TYPES.DEFENSE
-        )
-        self.stats[COLS.STAT_CATEGORIES.SCORING] = pandas.DataFrame(
-            INITS.STAT_TYPES.SCORING
-        )
-        self.stats[COLS.STAT_CATEGORIES.RETURNING] = pandas.DataFrame(
-            INITS.STAT_TYPES.RETURNING
-        )
-        self.stats[COLS.STAT_CATEGORIES.PUNTING] = pandas.DataFrame(
-            INITS.STAT_TYPES.KICKING
-        )
-        self.stats[COLS.STAT_CATEGORIES.KICKING] = pandas.DataFrame(
-            INITS.STAT_TYPES.PUNTING
-        )
+        self.stats = INITS.init_stats()
 
     def _load_standings(self):
         self._reset_standings()

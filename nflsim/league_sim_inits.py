@@ -1,4 +1,5 @@
 from nflsim.nfl_data_cols import *
+import pandas
 
 
 class INITS:
@@ -279,3 +280,20 @@ class INITS:
             COLS.STAT_PUNTING.RAVG: 0,
             COLS.STAT_PUNTING.NET: 0,
         }
+
+    @staticmethod
+    def init_stats():
+        stats = INITS.STATS.copy()
+        stats[COLS.STAT_CATEGORIES.PASSING] = pandas.DataFrame(INITS.STAT_TYPES.PASSING)
+        stats[COLS.STAT_CATEGORIES.RUSHING] = pandas.DataFrame(INITS.STAT_TYPES.RUSHING)
+        stats[COLS.STAT_CATEGORIES.RECEIVING] = pandas.DataFrame(
+            INITS.STAT_TYPES.RECEIVING
+        )
+        stats[COLS.STAT_CATEGORIES.DEFENSE] = pandas.DataFrame(INITS.STAT_TYPES.DEFENSE)
+        stats[COLS.STAT_CATEGORIES.SCORING] = pandas.DataFrame(INITS.STAT_TYPES.SCORING)
+        stats[COLS.STAT_CATEGORIES.RETURNING] = pandas.DataFrame(
+            INITS.STAT_TYPES.RETURNING
+        )
+        stats[COLS.STAT_CATEGORIES.PUNTING] = pandas.DataFrame(INITS.STAT_TYPES.KICKING)
+        stats[COLS.STAT_CATEGORIES.KICKING] = pandas.DataFrame(INITS.STAT_TYPES.PUNTING)
+        return stats
