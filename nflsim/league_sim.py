@@ -6,6 +6,7 @@ import os
 import json
 import nflsim.game_sim as game_sim
 import pandas
+from nflsim.league_sim_inits import *
 
 
 def _player_add_team(row, team, playerbase):
@@ -39,42 +40,6 @@ def _get_confs():
     with open(path, "r") as file:
         confs_json = json.load(file)
     return confs_json
-
-
-INIT_STANDINGS = {
-    "NFL Team": {},
-    "W": {},
-    "L": {},
-    "T": {},
-    "PCT": {},
-    "PF": {},
-    "PA": {},
-    "Net Pts": {},
-    "Home": {},
-    "Away": {},
-    "Div": {},
-    "Conf": {},
-    "Non-Conf": {},
-    "Strk": {},
-}
-
-
-INIT_STANDINGS_ROW = {
-    "NFL Team": "",
-    "W": 0,
-    "L": 0,
-    "T": 0,
-    "PCT": 0,
-    "PF": 0,
-    "PA": 0,
-    "Net Pts": 0,
-    "Home": "0-0-0",
-    "Away": "0-0-0",
-    "Div": "0-0-0",
-    "Conf": "0-0-0",
-    "Non-Conf": "0-0-0",
-    "Strk": "-",
-}
 
 
 class DivisionSim:
@@ -133,6 +98,34 @@ class LeagueSim:
         self.fin_season = self._data_final_season()
         self._load_confs()
         self._load_standings()
+        self._load_stats()
+
+    def _load_stats(self):
+        self.stats = INITS.STATS.copy()
+        self.stats[COLS.STAT_CATEGORIES.PASSING] = pandas.DataFrame(
+            INITS.STAT_TYPES.PASSING
+        )
+        self.stats[COLS.STAT_CATEGORIES.RUSHING] = pandas.DataFrame(
+            INITS.STAT_TYPES.RUSHING
+        )
+        self.stats[COLS.STAT_CATEGORIES.RECEIVING] = pandas.DataFrame(
+            INITS.STAT_TYPES.RECEIVING
+        )
+        self.stats[COLS.STAT_CATEGORIES.DEFENSE] = pandas.DataFrame(
+            INITS.STAT_TYPES.DEFENSE
+        )
+        self.stats[COLS.STAT_CATEGORIES.SCORING] = pandas.DataFrame(
+            INITS.STAT_TYPES.SCORING
+        )
+        self.stats[COLS.STAT_CATEGORIES.RETURNING] = pandas.DataFrame(
+            INITS.STAT_TYPES.RETURNING
+        )
+        self.stats[COLS.STAT_CATEGORIES.PUNTING] = pandas.DataFrame(
+            INITS.STAT_TYPES.KICKING
+        )
+        self.stats[COLS.STAT_CATEGORIES.KICKING] = pandas.DataFrame(
+            INITS.STAT_TYPES.PUNTING
+        )
 
     def _load_standings(self):
         self._reset_standings()
@@ -196,9 +189,9 @@ class LeagueSim:
         self._reset_standings()
 
     def _reset_standings(self):
-        self.standings = pandas.DataFrame(INIT_STANDINGS)
+        self.standings = pandas.DataFrame(INITS.STANDINGS)
         for id in self.teambase[COLS.TEAMS.ID]:
             team = self.teambase[COLS.TEAMS.ID][id]
-            series = pandas.Series(INIT_STANDINGS_ROW)
+            series = pandas.Series(INITS.STANDINGS_ROW)
             series["NFL Team"] = team.name_at_year(self.cur_season)
             self.standings.loc[id] = series

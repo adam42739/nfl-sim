@@ -5,3 +5,4 @@
 main.py
 /nflsim/roster_cache
 /nflsim/misc_cache
+tests.py
