@@ -39,6 +39,8 @@ def get_teambase():
 
 def _agg_teams(teams, years):
     team = Team()
+    team.id = teams[0].id
+    team.abbr = [x.abbr for x in teams]
     team.name = [x.name for x in teams]
     team.year = years
     team.conf = teams[0].conf
@@ -58,6 +60,8 @@ class Team:
         return
 
     def from_row(self, row):
+        self.id = row[COLS.TEAMS.ID]
+        self.abbr = row[COLS.TEAMS.ABBR]
         self.name = row[COLS.TEAMS.NAME]
         self.year = [nfl_data.START_YEAR]
         self.conf = row[COLS.TEAMS.CONF]
