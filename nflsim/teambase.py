@@ -24,10 +24,12 @@ def get_teambase():
     abbrs = _get_abbrs()
     for abbrs_key in abbrs:
         teams = []
+        years = []
         for x in abbrs[abbrs_key]:
             if x in teams_dict[COLS.TEAMS.ABBR]:
                 teams.append(teams_dict[COLS.TEAMS.ABBR][x])
-        new_team = _agg_teams(teams)
+                years.append(abbrs[abbrs_key][x])
+        new_team = _agg_teams(teams, years)
         for abbr in abbrs[abbrs_key]:
             teams_dict[COLS.TEAMS.ABBR][abbr] = new_team
             if abbr in abbr_match[COLS.TEAMS.ID]:
@@ -35,9 +37,10 @@ def get_teambase():
     return teams_dict
 
 
-def _agg_teams(teams):
+def _agg_teams(teams, years):
     team = Team()
     team.name = [x.name for x in teams]
+    team.year = years
     team.conf = teams[0].conf
     team.division = teams[0].division
     team.players = {}
@@ -56,6 +59,14 @@ class Team:
 
     def from_row(self, row):
         self.name = row[COLS.TEAMS.NAME]
+        self.year = [nfl_data.START_YEAR]
         self.conf = row[COLS.TEAMS.CONF]
         self.division = row[COLS.TEAMS.DIVISION]
         self.players = {}
+
+    def name_at_year(self, year):
+        for i in range(0, len(self.year)):
+            if i == len(self.year) - 1:
+                return self.name[i]
+            elif year >= self.year[i] and year < self.year[i + 1]:
+                return self.name[i]
