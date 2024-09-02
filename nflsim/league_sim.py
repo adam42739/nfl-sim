@@ -153,10 +153,84 @@ class LeagueSim:
     def _advance_week(self):
         self.cur_week += 1
 
+    def _standings_compute_pct(self):
+        total_games = (
+            self.standings[COLS.STANDINGS.W]
+            + self.standings[COLS.STANDINGS.L]
+            + self.standings[COLS.STANDINGS.T]
+        )
+        total_games = total_games * (total_games != 0) + 1 * (total_games == 0)
+        pct = self.standings[COLS.STANDINGS.W] / total_games
+        self.standings[COLS.STANDINGS.PCT] = pct
+
+    def _game_update_standings(self, game):
+        self.standings.at[game.home_team.id, COLS.STANDINGS.PF] += game.home_score
+        self.standings.at[game.home_team.id, COLS.STANDINGS.PA] += game.away_score
+        self.standings.at[game.away_team.id, COLS.STANDINGS.PF] += game.away_score
+        self.standings.at[game.away_team.id, COLS.STANDINGS.PA] += game.home_score
+        conf = game.home_team.conf == game.away_team.conf
+        div = game.home_team.division == game.away_team.division
+        if game.home_score > game.away_score:
+            self.standings.at[game.home_team.id, COLS.STANDINGS.W] += 1
+            self.standings.at[game.away_team.id, COLS.STANDINGS.L] += 1
+            self.standings.at[game.home_team.id, COLS.STANDINGS.HOMEW] += 1
+            self.standings.at[game.away_team.id, COLS.STANDINGS.AWAYL] += 1
+            if conf:
+                self.standings.at[game.home_team.id, COLS.STANDINGS.CONFW] += 1
+                self.standings.at[game.away_team.id, COLS.STANDINGS.CONFL] += 1
+                if div:
+                    self.standings.at[game.home_team.id, COLS.STANDINGS.DIVW] += 1
+                    self.standings.at[game.away_team.id, COLS.STANDINGS.DIVL] += 1
+            else:
+                self.standings.at[game.home_team.id, COLS.STANDINGS.NON_CONFW] += 1
+                self.standings.at[game.away_team.id, COLS.STANDINGS.NON_CONFL] += 1
+        elif game.home_score < game.away_score:
+            self.standings.at[game.home_team.id, COLS.STANDINGS.L] += 1
+            self.standings.at[game.away_team.id, COLS.STANDINGS.W] += 1
+            self.standings.at[game.home_team.id, COLS.STANDINGS.HOMEL] += 1
+            self.standings.at[game.away_team.id, COLS.STANDINGS.AWAYW] += 1
+            if conf:
+                self.standings.at[game.home_team.id, COLS.STANDINGS.CONFL] += 1
+                self.standings.at[game.away_team.id, COLS.STANDINGS.CONFW] += 1
+                if div:
+                    self.standings.at[game.home_team.id, COLS.STANDINGS.DIVL] += 1
+                    self.standings.at[game.away_team.id, COLS.STANDINGS.DIVW] += 1
+            else:
+                self.standings.at[game.home_team.id, COLS.STANDINGS.NON_CONFL] += 1
+                self.standings.at[game.away_team.id, COLS.STANDINGS.NON_CONFW] += 1
+        else:
+            self.standings.at[game.home_team.id, COLS.STANDINGS.T] += 1
+            self.standings.at[game.away_team.id, COLS.STANDINGS.T] += 1
+            self.standings.at[game.home_team.id, COLS.STANDINGS.HOMET] += 1
+            self.standings.at[game.away_team.id, COLS.STANDINGS.AWAYT] += 1
+            if conf:
+                self.standings.at[game.home_team.id, COLS.STANDINGS.CONFT] += 1
+                self.standings.at[game.away_team.id, COLS.STANDINGS.CONFT] += 1
+                if div:
+                    self.standings.at[game.home_team.id, COLS.STANDINGS.DIVT] += 1
+                    self.standings.at[game.away_team.id, COLS.STANDINGS.DIVT] += 1
+            else:
+                self.standings.at[game.home_team.id, COLS.STANDINGS.NON_CONFT] += 1
+                self.standings.at[game.away_team.id, COLS.STANDINGS.NON_CONFT] += 1
+        self._standings_compute_pct()
+
+    def _game_add_stats(self, game):
+        # for i in range(0, len(COLS.STAT_CATEGORIES.LIST)):
+        #     stats[COLS.STAT_CATEGORIES.LIST[i]] = pandas.DataFrame(
+        #         INITS.STAT_TYPES.LIST[i]
+        #     )
+        # TODO
+        return
+
+    def _game_finish(self, game):
+        self._game_add_stats(game)
+        self._game_update_standings(game)
+
     def _sim_game(self, row):
         game = game_sim.GameSim()
         game.from_row(row, self)
         game.sim()
+        self._game_finish(game)
 
     def _advance_season(self):
         self.cur_season += 1

@@ -12,11 +12,21 @@ class INITS:
         COLS.STANDINGS.PF: {},
         COLS.STANDINGS.PA: {},
         COLS.STANDINGS.NET_PTS: {},
-        COLS.STANDINGS.HOME: {},
-        COLS.STANDINGS.AWAY: {},
-        COLS.STANDINGS.DIV: {},
-        COLS.STANDINGS.CONF: {},
-        COLS.STANDINGS.NON_CONF: {},
+        COLS.STANDINGS.HOMEW: {},
+        COLS.STANDINGS.HOMEL: {},
+        COLS.STANDINGS.HOMET: {},
+        COLS.STANDINGS.AWAYW: {},
+        COLS.STANDINGS.AWAYL: {},
+        COLS.STANDINGS.AWAYT: {},
+        COLS.STANDINGS.DIVW: {},
+        COLS.STANDINGS.DIVL: {},
+        COLS.STANDINGS.DIVT: {},
+        COLS.STANDINGS.CONFW: {},
+        COLS.STANDINGS.CONFL: {},
+        COLS.STANDINGS.CONFT: {},
+        COLS.STANDINGS.NON_CONFW: {},
+        COLS.STANDINGS.NON_CONFL: {},
+        COLS.STANDINGS.NON_CONFT: {},
         COLS.STANDINGS.STRK: {},
     }
 
@@ -29,11 +39,21 @@ class INITS:
         COLS.STANDINGS.PF: 0,
         COLS.STANDINGS.PA: 0,
         COLS.STANDINGS.NET_PTS: 0,
-        COLS.STANDINGS.HOME: "0-0-0",
-        COLS.STANDINGS.AWAY: "0-0-0",
-        COLS.STANDINGS.DIV: "0-0-0",
-        COLS.STANDINGS.CONF: "0-0-0",
-        COLS.STANDINGS.NON_CONF: "0-0-0",
+        COLS.STANDINGS.HOMEW: 0,
+        COLS.STANDINGS.HOMEL: 0,
+        COLS.STANDINGS.HOMET: 0,
+        COLS.STANDINGS.AWAYW: 0,
+        COLS.STANDINGS.AWAYL: 0,
+        COLS.STANDINGS.AWAYT: 0,
+        COLS.STANDINGS.DIVW: 0,
+        COLS.STANDINGS.DIVL: 0,
+        COLS.STANDINGS.DIVT: 0,
+        COLS.STANDINGS.CONFW: 0,
+        COLS.STANDINGS.CONFL: 0,
+        COLS.STANDINGS.CONFT: 0,
+        COLS.STANDINGS.NON_CONFW: 0,
+        COLS.STANDINGS.NON_CONFL: 0,
+        COLS.STANDINGS.NON_CONFT: 0,
         COLS.STANDINGS.STRK: "-",
     }
 
@@ -281,19 +301,33 @@ class INITS:
             COLS.STAT_PUNTING.NET: 0,
         }
 
+        LIST = [
+            PASSING,
+            RUSHING,
+            RECEIVING,
+            DEFENSE,
+            SCORING,
+            RETURNING,
+            KICKING,
+            PUNTING,
+        ]
+
+        LIST_ROWS = [
+            PASSING_ROW,
+            RUSHING_ROW,
+            RECEIVING_ROW,
+            DEFENSE_ROW,
+            SCORING_ROW,
+            RETURNING_ROW,
+            KICKING_ROW,
+            PUNTING_ROW,
+        ]
+
     @staticmethod
     def init_stats():
         stats = INITS.STATS.copy()
-        stats[COLS.STAT_CATEGORIES.PASSING] = pandas.DataFrame(INITS.STAT_TYPES.PASSING)
-        stats[COLS.STAT_CATEGORIES.RUSHING] = pandas.DataFrame(INITS.STAT_TYPES.RUSHING)
-        stats[COLS.STAT_CATEGORIES.RECEIVING] = pandas.DataFrame(
-            INITS.STAT_TYPES.RECEIVING
-        )
-        stats[COLS.STAT_CATEGORIES.DEFENSE] = pandas.DataFrame(INITS.STAT_TYPES.DEFENSE)
-        stats[COLS.STAT_CATEGORIES.SCORING] = pandas.DataFrame(INITS.STAT_TYPES.SCORING)
-        stats[COLS.STAT_CATEGORIES.RETURNING] = pandas.DataFrame(
-            INITS.STAT_TYPES.RETURNING
-        )
-        stats[COLS.STAT_CATEGORIES.PUNTING] = pandas.DataFrame(INITS.STAT_TYPES.KICKING)
-        stats[COLS.STAT_CATEGORIES.KICKING] = pandas.DataFrame(INITS.STAT_TYPES.PUNTING)
+        for i in range(0, len(COLS.STAT_CATEGORIES.LIST)):
+            stats[COLS.STAT_CATEGORIES.LIST[i]] = pandas.DataFrame(
+                INITS.STAT_TYPES.LIST[i]
+            )
         return stats

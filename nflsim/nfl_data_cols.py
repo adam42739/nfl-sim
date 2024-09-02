@@ -106,11 +106,21 @@ class COLS:
         PF = "PF"
         PA = "PA"
         NET_PTS = "Net Pts"
-        HOME = "Home"
-        AWAY = "Away"
-        DIV = "Div"
-        CONF = "Conf"
-        NON_CONF = "Non-Conf"
+        HOMEW = "Home W"
+        HOMEL = "Home L"
+        HOMET = "Home T"
+        AWAYW = "Away W"
+        AWAYL = "Away L"
+        AWAYT = "Away T"
+        DIVW = "Div W"
+        DIVL = "Div L"
+        DIVT = "Div T"
+        CONFW = "Conf W"
+        CONFL = "Conf L"
+        CONFT = "Conf T"
+        NON_CONFW = "Non-Conf W"
+        NON_CONFL = "Non-Conf L"
+        NON_CONFT = "Non-Conf T"
         STRK = "Strk"
 
     class STAT_CATEGORIES:
@@ -122,6 +132,17 @@ class COLS:
         RETURNING = "Returning"
         KICKING = "Kicking"
         PUNTING = "Punting"
+
+        LIST = [
+            PASSING,
+            RUSHING,
+            RECEIVING,
+            DEFENSE,
+            SCORING,
+            RETURNING,
+            KICKING,
+            PUNTING,
+        ]
 
     class STAT_PASSING:
         GP = "GP"
