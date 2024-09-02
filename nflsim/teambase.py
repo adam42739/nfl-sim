@@ -37,9 +37,9 @@ def get_teambase():
 
 def _agg_teams(teams):
     team = Team()
-    team.team_name = [x.team_name for x in teams]
-    team.team_conf = teams[0].team_conf
-    team.team_division = teams[0].team_division
+    team.name = [x.name for x in teams]
+    team.conf = teams[0].conf
+    team.division = teams[0].division
     team.players = {}
     return team
 
@@ -55,7 +55,7 @@ class Team:
         return
 
     def from_row(self, row):
-        self.team_name = row[COLS.TEAMS.NAME]
-        self.team_conf = row[COLS.TEAMS.CONF]
-        self.team_division = row[COLS.TEAMS.DIVISION]
+        self.name = row[COLS.TEAMS.NAME]
+        self.conf = row[COLS.TEAMS.CONF]
+        self.division = row[COLS.TEAMS.DIVISION]
         self.players = {}
