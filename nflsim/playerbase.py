@@ -4,7 +4,7 @@ import os
 import csv
 
 
-MISC_CACHE_PLAYERBASE = "/misc_cache/playerbase.csv"
+MISC_CACHE_PLAYERBASE_FILE = "playerbase.csv"
 
 
 def load_playersbase(rosters, drafts):
@@ -22,7 +22,11 @@ def load_playersbase(rosters, drafts):
     ]
     player_df = nfl_data.get_players(rosters, drafts)
     player_df = player_df.drop_duplicates()
-    cache_path = os.path.dirname(__file__) + MISC_CACHE_PLAYERBASE
+    cache_path = (
+        os.path.dirname(__file__)
+        + nfl_data.MISC_CACHE_PATH
+        + MISC_CACHE_PLAYERBASE_FILE
+    )
     COLUMNS_ORDER = [
         COLS.ROSTERS.PLAYER_ID,
         COLS.ROSTERS.PLAYER_NAME,

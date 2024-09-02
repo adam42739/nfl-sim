@@ -152,6 +152,7 @@ def get_players(rosters, drafts):
 
 ROSTER_CACHE_PATH = "/roster_cache/"
 
+
 ROSTERS_COLUMNS_KEEP = [
     COLS.ROSTERS.TEAM,
     COLS.ROSTERS.SEASON,
@@ -232,3 +233,21 @@ def get_drafts(years):
     df = nfl_data_py.import_draft_picks(years)
     df = df[COLUMNS]
     return df
+
+
+MISC_CACHE_PATH = "/misc_cache/"
+
+
+def _check_cache_dir(dir_name):
+    path = os.path.dirname(__file__) + dir_name
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+
+def _check_cache_dirs():
+    _check_cache_dir(PBP_CACHE_PATH)
+    _check_cache_dir(ROSTER_CACHE_PATH)
+    _check_cache_dir(MISC_CACHE_PATH)
+
+
+_check_cache_dirs()
