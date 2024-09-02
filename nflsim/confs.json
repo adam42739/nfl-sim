@@ -1,0 +1,20 @@
+{
+    "AFC": {
+        "name": "American Football Conference",
+        "divs": [
+            "AFC East",
+            "AFC North",
+            "AFC South",
+            "AFC West"
+        ]
+    },
+    "NFC": {
+        "name": "National Football Conference",
+        "divs": [
+            "NFC East",
+            "NFC North",
+            "NFC South",
+            "NFC West"
+        ]
+    }
+}

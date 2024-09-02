@@ -2,6 +2,8 @@ import nflsim.nfl_data as nfl_data
 import nflsim.playerbase as playerbase
 import nflsim.teambase as teambase
 from nflsim.nfl_data_cols import *
+import os
+import json
 
 
 def _player_add_team(row, team, playerbase):
@@ -22,20 +24,73 @@ def update_teambase_rosters(teambase, rosters, playerbase, season, week):
         team_roster.apply(
             _player_add_team, axis=1, args=(teambase[COLS.TEAMS.ABBR][abbr], playerbase)
         )
+
     return teambase
 
 
-class LeagueSim:
+CONFS_PATH = "/confs.json"
+
+
+def _get_confs():
+    path = os.path.dirname(__file__) + CONFS_PATH
+    confs_json = None
+    with open(path, "r") as file:
+        confs_json = json.load(file)
+    return confs_json
+
+
+class DivisionSim:
     def __init__(self):
+        return
+
+    def from_teambase(self, conf, div, teambase):
+        self.conf = conf
+        self.div = div
+        self.teams = {COLS.TEAMS.ABBR: {}, COLS.TEAMS.ID: {}}
+        for abbr in teambase[COLS.TEAMS.ABBR]:
+            team = teambase[COLS.TEAMS.ABBR][abbr]
+            if team.conf == conf and team.division == div:
+                self.teams[COLS.TEAMS.ABBR][abbr] = team
+        for id in teambase[COLS.TEAMS.ID]:
+            team = teambase[COLS.TEAMS.ID][id]
+            if team.conf == conf and team.division == div:
+                self.teams[COLS.TEAMS.ID][id] = team
+
+
+class ConfSim:
+    def __init__(self):
+        return
+
+    def from_teambase(self, abbr, conf, teambase):
+        self.abbr = abbr
+        self.name = conf["name"]
+        self.divs = {}
+        for div in conf["divs"]:
+            self.divs[div] = DivisionSim()
+            self.divs[div].from_teambase(abbr, div, teambase)
+
+
+class LeagueSim:
+    def __init__(self, season, week):
+        self.cur_season = season
+        self.cur_week = week
+        self._load_assets()
+        self.cur_sb_week = self._season_sb_week()
+        self.fin_season = self._data_final_season()
+        self._load_confs()
+
+    def _load_confs(self):
+        confs_json = _get_confs()
+        self.confs = {"AFC": ConfSim(), "NFL": ConfSim()}
+        self.confs["AFC"].from_teambase("AFC", confs_json["AFC"], self.teambase)
+        self.confs["NFC"].from_teambase("NFC", confs_json["NFC"], self.teambase)
+
+    def _load_assets(self):
         years = [year for year in range(nfl_data.START_YEAR, nfl_data.THIS_YEAR + 1)]
         self.rosters = nfl_data.get_rosters(years)
         self.drafts = nfl_data.get_drafts(years)
         self.players = playerbase.load_playersbase(self.rosters, self.drafts)
         self.schedules = nfl_data.get_schedules(years)
-        self.cur_season = nfl_data.START_YEAR
-        self.cur_week = 1
-        self.cur_sb_week = self._season_sb_week()
-        self.fin_season = self._data_final_season()
         self.teambase = teambase.get_teambase()
         self.teambase = update_teambase_rosters(
             self.teambase, self.rosters, self.players, self.cur_season, self.cur_week
