@@ -123,7 +123,6 @@ PLAYERS_COLUMNS_KEEP = [
 def get_players(rosters, drafts):
     df = rosters[PLAYERS_COLUMNS_KEEP]
     df.drop_duplicates()
-    df[COLS.ROSTERS.BIRTH_DATE] = pandas.to_datetime(df[COLS.ROSTERS.BIRTH_DATE])
     df = pandas.merge(
         df,
         drafts,
@@ -203,6 +202,7 @@ def get_rosters(years):
             path = os.path.dirname(__file__) + ROSTER_CACHE_PATH + str(year) + ".csv"
             dfs.append(pandas.read_csv(path))
     df = pandas.concat(dfs, ignore_index=True, sort=False)
+    df[COLS.ROSTERS.BIRTH_DATE] = pandas.to_datetime(df[COLS.ROSTERS.BIRTH_DATE])
     _write_roster_metadata(metadata)
     return df
 

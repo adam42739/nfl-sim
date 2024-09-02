@@ -4,3 +4,4 @@
 /nflsim/__pycache__
 main.py
 /nflsim/roster_cache
+/nflsim/misc_cache
