@@ -1,0 +1,48 @@
+from nflsim.nfl_data_cols import *
+
+
+class INITS:
+    STANDINGS = {
+        COLS.STANDINGS.NFL_TEAM: {},
+        COLS.STANDINGS.W: {},
+        COLS.STANDINGS.L: {},
+        COLS.STANDINGS.T: {},
+        COLS.STANDINGS.PCT: {},
+        COLS.STANDINGS.PF: {},
+        COLS.STANDINGS.PA: {},
+        COLS.STANDINGS.NET_PTS: {},
+        COLS.STANDINGS.HOME: {},
+        COLS.STANDINGS.AWAY: {},
+        COLS.STANDINGS.DIV: {},
+        COLS.STANDINGS.CONF: {},
+        COLS.STANDINGS.NON_CONF: {},
+        COLS.STANDINGS.STRK: {},
+    }
+
+    STANDINGS_ROW = {
+        COLS.STANDINGS.NFL_TEAM: "",
+        COLS.STANDINGS.W: 0,
+        COLS.STANDINGS.L: 0,
+        COLS.STANDINGS.T: 0,
+        COLS.STANDINGS.PCT: 0,
+        COLS.STANDINGS.PF: 0,
+        COLS.STANDINGS.PA: 0,
+        COLS.STANDINGS.NET_PTS: 0,
+        COLS.STANDINGS.HOME: "0-0-0",
+        COLS.STANDINGS.AWAY: "0-0-0",
+        COLS.STANDINGS.DIV: "0-0-0",
+        COLS.STANDINGS.CONF: "0-0-0",
+        COLS.STANDINGS.NON_CONF: "0-0-0",
+        COLS.STANDINGS.STRK: "-",
+    }
+
+    STATS = {
+        COLS.STAT_CATEGORIES.PASSING: {},
+        COLS.STAT_CATEGORIES.RUSHING: {},
+        COLS.STAT_CATEGORIES.RECEIVING: {},
+        COLS.STAT_CATEGORIES.DEFENSE: {},
+        COLS.STAT_CATEGORIES.SCORING: {},
+        COLS.STAT_CATEGORIES.RETURNING: {},
+        COLS.STAT_CATEGORIES.KICKING: {},
+        COLS.STAT_CATEGORIES.PUNTING: {},
+    }
