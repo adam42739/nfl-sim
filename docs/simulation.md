@@ -1,17 +1,24 @@
 # nfl-sim
 
+## Introduction
+
+
+
 ## Contents
 
-1. [Game Progression](#game-progression)
-2. [Plays](#plays)
-   - [Pass](#pass)
-   - [Rush](#rush)
-   - [Field Goal](#field-goal)
-   - [Kickoff](#kickoff)
-   - [Punt](#punt)
-   - [Extra Point](#extra-point)
-   - [2 Point Conversion](#2-point-conversion)
-   - [Saftey Punt](#saftey-punt)
+- [nfl-sim](#nfl-sim)
+  - [Introduction](#introduction)
+  - [Contents](#contents)
+  - [Game Progression](#game-progression)
+  - [Plays](#plays)
+    - [Pass](#pass)
+    - [Rush](#rush)
+    - [Field Goal](#field-goal)
+    - [Kickoff](#kickoff)
+    - [Punt](#punt)
+    - [Extra Point](#extra-point)
+    - [2-Point Conversion](#2-point-conversion)
+    - [Saftey Punt](#saftey-punt)
 
 ## Game Progression
 
@@ -25,86 +32,36 @@
 
    1. [Pass Play Sack Model](models.md#pass-play-sack-model)
 
-      **If** `saftey == True`:
-
-      1. Add `2` to the defense's score.
-      2. Deduct `time` from the playclock.
-
-      **Else**:
-
-      1. Place the ball at the appropriate yard line.
-      2. Deduct `time` from the playclock
-
    **Else if** `fumble == True`:
 
    1. [Passer Fumble Return Model](models.md#passer-fumble-return-model)
-
-      **If** `td == True`:
-
-      1. Add `6` to the defense's score.
-
-      **Else**:
-
-      1. Place the ball at the appropriate yard line.
-
-   2. Deduct `time` from the playclock
 
    **Else if** `scramble == True`:
 
    1. [Passer Scramble Model](models.md#passer-scramble-model)
 
-      **If** `td == True`:
-
-      1. Add `6` to the offense's score.
-      2. Deduct `time` from the playclock.
-
-      **Else if** `fumble ==  True`:
+      **If** `fumble ==  True`:
 
       1. [Passer Scramble Fumble Model](models.md#passer-scramble-fumble-model)
 
-         **If** `td == True`:
-
-         1. Add `6` to the defense's score
-
-         **Else**
-
-         2. Place the ball at the appropriate yard line.
-
-      2. Deduct `time` from the playclock.
-
-      **Else**
-
-      1. Place the ball at the appropriate yard line.
-      2. Deduct `time` from hte playclock.
-
-   **Else if** `throw == True`:
+   **Else**:
 
    1. [Passer Throw Model](models.md#passer-throw-model)
 
-      **If** `td ==  True`:
+      **If** `complete == True`:
 
-      1. Add `6` to the offense's score.
-      2. Deduct `time` from the playclock.
+      1. [Receiver YAC Model](models.md#receiver-yac-model)
 
-      **Else if** `complete == True`:
-
-      1. [Receiver YAC Model]()
 
       **Else if** `int == True`:
 
-      1. [Passing Interction Return Model]()
-
-      **Else**:
-
-      1. Deduct `time` from the playclock.
+      2. [Passing Interction Return Model]()
 
 ### Rush
 
 ### Field Goal
 
 1. [Field Goal Model](models.md#field-goal-model).
-
-2. Deduct `time` from the playclock.
 
 ### Kickoff
 
@@ -115,34 +72,9 @@
 
    1. [Kick Return Yards Model](models.md#kick-return-yards-model).
 
-      **If** `td == True`:
-
-      1. Add `6` points to the returning team's score.
-      2. Deduct `time` from the playclock.
-
-      **Else if** `fumble == True`:
+      **If** `fumble == True`:
 
       1. [Kick Return Fumble Model](models.md#kick-return-fumble-model).
-
-         **If** `td == True`:
-
-         1. Add `6` points to the kicking team's score.
-
-         **Else**:
-
-         1. Place the ball at the appropriate yard line.
-
-      2. Deduct `time` from the playclock.
-
-      **Else**:
-
-      1. Place the ball at the appropriate yard line.
-      2. Deduct the `time` from the playclock.
-
-   **Else**:
-
-   1. Place the ball at the appropriate yard line per the NFL rules for the current (or simulated) year.
-   2. No time is deducted from the playclock.
 
 ### Punt
 
@@ -151,21 +83,6 @@
    **If** `blocked == True`:
 
    1. [Punt Block Model](models.md#punt-block-model).
-
-      **If** `td == True`:
-
-      1. Add `6` to the returning team's score.
-
-      **Else**:
-
-      1. Place the ball at the appropriate yard line.
-
-   2. Deduct `time` from the playclock.
-
-   **Else if** `touchback == True`:
-
-   1. Place the ball at the appropriate yard line per the NFL rules for the current (or simulated) year.
-   2. Deduct `time` from the playclock.
 
    **Else**:
 
@@ -179,30 +96,9 @@
 
          1. [Punt Return Fumble Model](models.md#punt-return-fumble-model)
 
-            **If** `td == True`:
-
-            1. Add `6` to the punting teams score.
-
-            **Else**:
-
-            1. Place the ball at the appropriate yard line.
-
-         2. Deduct `time` from the playclock.
-
-         **Else**:
-
-         1. Place the ball at the appropriate yard line.
-         2. Deduct `time` from the playclock.
-
-      **Else**:
-
-      1. Place the ball at the appropriate yard line.
-      2. Deduct `time` from the playclock.
-
 ### Extra Point
 
 1. [Extra Point Model](models.md#extra-point-model)
-2. No time is deducted from the playclock
 
 ### 2-Point Conversion
 

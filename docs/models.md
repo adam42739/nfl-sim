@@ -19,6 +19,7 @@
 15. [Punt Return Decision Model](#punt-return-decision-model)
 16. [Punt Return Fumble Model](#punt-return-fumble-model)
 17. [Punt Return Yards Model](#punt-return-yards-model)
+18. [Receiver YAC Model](#receiver-yac-model)
 
 ## Extra Point Model
 
@@ -341,3 +342,12 @@
 &emsp;**`time`: _float_**
 
 &emsp;&emsp;The time used during the punt return play.
+
+## Receiver YAC Model
+
+`model_ryac()`
+
+### Parameters
+
+### Returns
+
