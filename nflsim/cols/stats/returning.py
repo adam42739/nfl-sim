@@ -14,15 +14,15 @@ KRFC = "KRFC"
 KLNG = "KLNG"
 
 DICT = {
-    GP: types.ACCUM,
-    PATT: types.ACCUM,
-    PYDS: types.ACCUM,
-    PTD: types.ACCUM,
-    PFC: types.ACCUM,
-    PLNG: types.MAX,
-    KATT: types.ACCUM,
-    KYDS: types.ACCUM,
-    KTD: types.ACCUM,
-    KRFC: types.ACCUM,
-    KLNG: types.MAX,
+    GP: {types.TYPE:types.ACCUM,types.PARAM:None},
+    PATT: {types.TYPE:types.ACCUM,types.PARAM:None},
+    PYDS: {types.TYPE:types.ACCUM,types.PARAM:None},
+    PTD: {types.TYPE:types.ACCUM,types.PARAM:None},
+    PFC: {types.TYPE:types.ACCUM,types.PARAM:None},
+    PLNG: {types.TYPE:types.MAX,types.PARAM:None},
+    KATT: {types.TYPE:types.ACCUM,types.PARAM:None},
+    KYDS: {types.TYPE:types.ACCUM,types.PARAM:None},
+    KTD: {types.TYPE:types.ACCUM,types.PARAM:None},
+    KRFC: {types.TYPE:types.ACCUM,types.PARAM:None},
+    KLNG: {types.TYPE:types.MAX,types.PARAM:None},
 }

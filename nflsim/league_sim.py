@@ -7,6 +7,7 @@ import json
 from nflsim import game_sim
 import pandas
 from nflsim import inits
+import numpy
 
 
 def _player_add_team(row, team, playerbase):
@@ -214,14 +215,40 @@ class LeagueSim:
                 self.standings.at[game.away_team.id, cols.standings.NON_CONFT] += 1
         self._standings_compute_pct()
 
+    def _game_stats_merged_df(self, game, cat):
+        lstat = self.stats[cat]
+        gstat = game.stats[cat]
+        lstat_inds = lstat.index.values.tolist()
+        gstat_inds = gstat.index.values.tolist()
+        for g_ind in gstat_inds:
+            if g_ind not in lstat_inds:
+                lstat.loc[g_ind] = inits.stats.stats_init.ROW_DICT[cat]
+        return lstat.merge(gstat, left_index=True, right_index=True)
+
     def _game_add_stats(self, game):
-        # for i in range(0, len(COLS.STAT_CATEGORIES.LIST)):
-        #     df = self.stats[COLS.STAT_CATEGORIES.LIST[i]]
-        #     mask = df[]
-        #     self.stats[self.stats]
-        #     stats[COLS.STAT_CATEGORIES.LIST[i]] = pandas.DataFrame(
-        #         INITS.STAT_TYPES.LIST[i]
-        #     )
+        for cat in cols.stats.categories.LIST:
+            df = self._game_stats_merged_df(game, cat)
+            stat_dict = cols.stats.categories.STAT_DICTS[cat]
+            for stat in stat_dict:
+                if stat_dict[stat][cols.stats.types.TYPE] == cols.stats.types.ACCUM:
+                    df[stat + "_x"] += df[stat + "_y"]
+                elif stat_dict[stat][cols.stats.types.TYPE] == cols.stats.types.MAX:
+                    df[stat + "_x"] = numpy.maximum(df[stat + "_x"], df[stat + "_y"])
+            for stat in stat_dict:
+                if stat_dict[stat][cols.stats.types.TYPE] == cols.stats.types.AVG:
+                    X_params_list = [
+                        x + "_x" for x in stat_dict[stat][cols.stats.types.PARAM]["X"]
+                    ]
+                    X = df[X_params_list].sum(axis=1)
+                    Y_params_list = [
+                        x + "_x" for x in stat_dict[stat][cols.stats.types.PARAM]["Y"]
+                    ]
+                    Y = df[Y_params_list].sum(axis=1)
+                    mask = Y == 0
+                    df[stat_dict[stat][cols.stats.types.PARAM]["Y"][0] + "_x"][mask] = 1
+                    Y = df[Y_params_list].sum(axis=1)
+                    df[stat + "_x"] = X / Y
+                    df[stat_dict[stat][cols.stats.types.PARAM]["Y"][0] + "_x"][mask] = 0
         return
 
     def _game_finish(self, game):

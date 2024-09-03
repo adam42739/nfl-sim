@@ -3,6 +3,7 @@ from nflsim.cols.stats import types
 
 GP = "GP"
 FG = "FG"
+FGA = "FGA"
 FGP = "FG%"
 Y01_19 = "1-19"
 Y20_29 = "20-29"
@@ -15,16 +16,17 @@ XPA = "XPA"
 PTS = "PTS"
 
 DICT = {
-    GP: types.ACCUM,
-    FG: types.ACCUM,
-    FGP: types.AVG,
-    Y01_19: types.ACCUM,
-    Y20_29: types.ACCUM,
-    Y30_39: types.ACCUM,
-    Y40_49: types.ACCUM,
-    Y50P: types.ACCUM,
-    LNG: types.MAX,
-    XPM: types.ACCUM,
-    XPA: types.ACCUM,
-    PTS: types.ACCUM,
+    GP: {types.TYPE: types.ACCUM, types.PARAM: None},
+    FG: {types.TYPE: types.ACCUM, types.PARAM: None},
+    FGA: {types.TYPE: types.ACCUM, types.PARAM: None},
+    FGP: {types.TYPE: types.AVG, types.PARAM: {"X": [FG], "Y": [FGA]}},
+    Y01_19: {types.TYPE: types.ACCUM, types.PARAM: None},
+    Y20_29: {types.TYPE: types.ACCUM, types.PARAM: None},
+    Y30_39: {types.TYPE: types.ACCUM, types.PARAM: None},
+    Y40_49: {types.TYPE: types.ACCUM, types.PARAM: None},
+    Y50P: {types.TYPE: types.ACCUM, types.PARAM: None},
+    LNG: {types.TYPE: types.MAX, types.PARAM: None},
+    XPM: {types.TYPE: types.ACCUM, types.PARAM: None},
+    XPA: {types.TYPE: types.ACCUM, types.PARAM: None},
+    PTS: {types.TYPE: types.ACCUM, types.PARAM: None},
 }
