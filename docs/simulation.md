@@ -28,19 +28,19 @@
 
 1. [Pass Play Branch Model](models.md#pass-play-branch-model)
 
-   **If** `sack == True`:
+   **If** `sack`:
 
    1. [Pass Play Sack Model](models.md#pass-play-sack-model)
 
-   **Else if** `fumble == True`:
+   **Else if** `fumble`:
 
    1. [Passer Fumble Return Model](models.md#passer-fumble-return-model)
 
-   **Else if** `scramble == True`:
+   **Else if** `scramble`:
 
    1. [Passer Scramble Model](models.md#passer-scramble-model)
 
-      **If** `fumble ==  True`:
+      **If** `fumble`:
 
       1. [Passer Scramble Fumble Model](models.md#passer-scramble-fumble-model)
 
@@ -48,12 +48,12 @@
 
    1. [Passer Throw Model](models.md#passer-throw-model)
 
-      **If** `complete == True`:
+      **If** `complete`:
 
       1. [Receiver YAC Model](models.md#receiver-yac-model)
 
 
-      **Else if** `int == True`:
+      **Else if** `int`:
 
       2. [Passing Interction Return Model]()
 
@@ -68,11 +68,11 @@
 1. [Kick Distance Model](models.md#kick-distance-model).
 2. [Kick Return Decision Model](models.md#kick-return-decision-model).
 
-   **If** `_return == True`:
+   **If** `_return`:
 
    1. [Kick Return Yards Model](models.md#kick-return-yards-model).
 
-      **If** `fumble == True`:
+      **If** `fumble`:
 
       1. [Kick Return Fumble Model](models.md#kick-return-fumble-model).
 
@@ -80,7 +80,7 @@
 
 1. [Punt Model](models.md#punt-model).
 
-   **If** `blocked == True`:
+   **If** `blocked`:
 
    1. [Punt Block Model](models.md#punt-block-model).
 
@@ -88,11 +88,11 @@
 
    1. [Punt Return Decision Model](models.md#punt-return-decision-model).
 
-      **If** `_return == True`:
+      **If** `_return`:
 
       1. [Punt Return Yards Model](models.md#punt-return-yards-model)
 
-         **If** `fumble == True`:
+         **If** `fumble`:
 
          1. [Punt Return Fumble Model](models.md#punt-return-fumble-model)
 
