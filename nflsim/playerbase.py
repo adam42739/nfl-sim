@@ -1,5 +1,5 @@
-import nflsim.nfl_data as nfl_data
-from nflsim.nfl_data_cols import *
+from nflsim import nfl_data
+from nflsim import cols
 import os
 import csv
 
@@ -9,16 +9,16 @@ MISC_CACHE_PLAYERBASE_FILE = "playerbase.csv"
 
 def load_playersbase(rosters, drafts):
     COLUMNS_DEL = [
-        COLS.ROSTERS.PLAYER_NAME,
-        COLS.ROSTERS.FIRST_NAME,
-        COLS.ROSTERS.LAST_NAME,
-        COLS.ROSTERS.POSITION,
-        COLS.ROSTERS.BIRTH_DATE,
-        COLS.DRAFTS.SEASON,
-        COLS.DRAFTS.ROUND,
-        COLS.DRAFTS.PICK,
-        COLS.ROSTERS.HEIGHT,
-        COLS.ROSTERS.WEIGHT,
+        cols.rosters.PLAYER_NAME,
+        cols.rosters.FIRST_NAME,
+        cols.rosters.LAST_NAME,
+        cols.rosters.POSITION,
+        cols.rosters.BIRTH_DATE,
+        cols.drafts.SEASON,
+        cols.drafts.ROUND,
+        cols.drafts.PICK,
+        cols.rosters.HEIGHT,
+        cols.rosters.WEIGHT,
     ]
     player_df = nfl_data.get_players(rosters, drafts)
     player_df = player_df.drop_duplicates()
@@ -28,17 +28,17 @@ def load_playersbase(rosters, drafts):
         + MISC_CACHE_PLAYERBASE_FILE
     )
     COLUMNS_ORDER = [
-        COLS.ROSTERS.PLAYER_ID,
-        COLS.ROSTERS.PLAYER_NAME,
-        COLS.ROSTERS.FIRST_NAME,
-        COLS.ROSTERS.LAST_NAME,
-        COLS.ROSTERS.POSITION,
-        COLS.ROSTERS.BIRTH_DATE,
-        COLS.DRAFTS.SEASON,
-        COLS.DRAFTS.ROUND,
-        COLS.DRAFTS.PICK,
-        COLS.ROSTERS.HEIGHT,
-        COLS.ROSTERS.WEIGHT,
+        cols.rosters.PLAYER_ID,
+        cols.rosters.PLAYER_NAME,
+        cols.rosters.FIRST_NAME,
+        cols.rosters.LAST_NAME,
+        cols.rosters.POSITION,
+        cols.rosters.BIRTH_DATE,
+        cols.drafts.SEASON,
+        cols.drafts.ROUND,
+        cols.drafts.PICK,
+        cols.rosters.HEIGHT,
+        cols.rosters.WEIGHT,
     ]
     player_df = player_df.reindex(COLUMNS_ORDER, axis="columns")
     player_df.to_csv(cache_path)

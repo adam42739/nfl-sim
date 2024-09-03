@@ -1,31 +1,31 @@
-import nflsim.nfl_data as nfl_data
-import nflsim.playerbase as playerbase
-import nflsim.teambase as teambase
-from nflsim.nfl_data_cols import *
+from nflsim import nfl_data
+from nflsim import playerbase
+from nflsim import teambase
+from nflsim import cols
 import os
 import json
-import nflsim.game_sim as game_sim
+from nflsim import game_sim
 import pandas
-from nflsim.league_sim_inits import *
+from nflsim import inits
 
 
 def _player_add_team(row, team, playerbase):
-    id = row[COLS.ROSTERS.PLAYER_ID]
+    id = row[cols.rosters.PLAYER_ID]
     if not isinstance(id, float):
         team.players[id] = playerbase[id]
 
 
 def update_teambase_rosters(teambase, rosters, playerbase, season, week):
-    mask = (rosters[COLS.ROSTERS.SEASON] == season) & (
-        rosters[COLS.ROSTERS.WEEK] == week
+    mask = (rosters[cols.rosters.SEASON] == season) & (
+        rosters[cols.rosters.WEEK] == week
     )
     rosters_week = rosters[mask]
-    for abbr in teambase[COLS.TEAMS.ABBR]:
-        teambase[COLS.TEAMS.ABBR][abbr].players = {}
-        mask = rosters_week[COLS.ROSTERS.TEAM] == abbr
+    for abbr in teambase[cols.teams.ABBR]:
+        teambase[cols.teams.ABBR][abbr].players = {}
+        mask = rosters_week[cols.rosters.TEAM] == abbr
         team_roster = rosters_week[mask]
         team_roster.apply(
-            _player_add_team, axis=1, args=(teambase[COLS.TEAMS.ABBR][abbr], playerbase)
+            _player_add_team, axis=1, args=(teambase[cols.teams.ABBR][abbr], playerbase)
         )
 
     return teambase
@@ -50,18 +50,18 @@ class DivisionSim:
         self.league = league
         self.conf = conf
         self.div = div
-        self.teams = {COLS.TEAMS.ABBR: {}, COLS.TEAMS.ID: {}}
-        for abbr in teambase[COLS.TEAMS.ABBR]:
-            team = teambase[COLS.TEAMS.ABBR][abbr]
+        self.teams = {cols.teams.ABBR: {}, cols.teams.ID: {}}
+        for abbr in teambase[cols.teams.ABBR]:
+            team = teambase[cols.teams.ABBR][abbr]
             if team.conf == conf and team.division == div:
-                self.teams[COLS.TEAMS.ABBR][abbr] = team
-        for id in teambase[COLS.TEAMS.ID]:
-            team = teambase[COLS.TEAMS.ID][id]
+                self.teams[cols.teams.ABBR][abbr] = team
+        for id in teambase[cols.teams.ID]:
+            team = teambase[cols.teams.ID][id]
             if team.conf == conf and team.division == div:
-                self.teams[COLS.TEAMS.ID][id] = team
+                self.teams[cols.teams.ID][id] = team
 
     def get_standings(self):
-        mask = self.league.standings.index.isin(self.teams[COLS.TEAMS.ID].keys())
+        mask = self.league.standings.index.isin(self.teams[cols.teams.ID].keys())
         return self.league.standings[mask]
 
 
@@ -82,7 +82,7 @@ class ConfSim:
     def _load_team_ids(self):
         self.teams = []
         for div in self.divs:
-            self.teams += self.divs[div].teams[COLS.TEAMS.ID].keys()
+            self.teams += self.divs[div].teams[cols.teams.ID].keys()
 
     def get_standings(self):
         mask = self.league.standings.index.isin(self.teams)
@@ -101,7 +101,7 @@ class LeagueSim:
         self._load_stats()
 
     def _load_stats(self):
-        self.stats = INITS.init_stats()
+        self.stats = inits.stats.stats_init.init()
 
     def _load_standings(self):
         self._reset_standings()
@@ -124,11 +124,11 @@ class LeagueSim:
         )
 
     def _data_final_season(self):
-        return self.schedules[COLS.SCHEDULES.SEASON].max()
+        return self.schedules[cols.schedules.SEASON].max()
 
     def _season_sb_week(self):
-        return self.schedules[self.schedules[COLS.SCHEDULES.SEASON] == self.cur_season][
-            COLS.SCHEDULES.WEEK
+        return self.schedules[self.schedules[cols.schedules.SEASON] == self.cur_season][
+            cols.schedules.WEEK
         ].max()
 
     def _load_schedules(self):
@@ -136,8 +136,8 @@ class LeagueSim:
         self.schedules = nfl_data.get_schedules(years)
 
     def sim_week(self):
-        week_mask = (self.schedules[COLS.SCHEDULES.SEASON] == self.cur_season) & (
-            self.schedules[COLS.SCHEDULES.WEEK] == self.cur_week
+        week_mask = (self.schedules[cols.schedules.SEASON] == self.cur_season) & (
+            self.schedules[cols.schedules.WEEK] == self.cur_week
         )
         games = self.schedules[week_mask]
         games.apply(self._sim_game, axis=1)
@@ -155,71 +155,73 @@ class LeagueSim:
 
     def _standings_compute_pct(self):
         total_games = (
-            self.standings[COLS.STANDINGS.W]
-            + self.standings[COLS.STANDINGS.L]
-            + self.standings[COLS.STANDINGS.T]
+            self.standings[cols.standings.W]
+            + self.standings[cols.standings.L]
+            + self.standings[cols.standings.T]
         )
         total_games = total_games * (total_games != 0) + 1 * (total_games == 0)
-        pct = self.standings[COLS.STANDINGS.W] / total_games
-        self.standings[COLS.STANDINGS.PCT] = pct
+        pct = self.standings[cols.standings.W] / total_games
+        self.standings[cols.standings.PCT] = pct
 
     def _game_update_standings(self, game):
-        self.standings.at[game.home_team.id, COLS.STANDINGS.PF] += game.home_score
-        self.standings.at[game.home_team.id, COLS.STANDINGS.PA] += game.away_score
-        self.standings.at[game.away_team.id, COLS.STANDINGS.PF] += game.away_score
-        self.standings.at[game.away_team.id, COLS.STANDINGS.PA] += game.home_score
+        self.standings.at[game.home_team.id, cols.standings.PF] += game.home_score
+        self.standings.at[game.home_team.id, cols.standings.PA] += game.away_score
+        self.standings.at[game.away_team.id, cols.standings.PF] += game.away_score
+        self.standings.at[game.away_team.id, cols.standings.PA] += game.home_score
         conf = game.home_team.conf == game.away_team.conf
         div = game.home_team.division == game.away_team.division
         if game.home_score > game.away_score:
-            self.standings.at[game.home_team.id, COLS.STANDINGS.W] += 1
-            self.standings.at[game.away_team.id, COLS.STANDINGS.L] += 1
-            self.standings.at[game.home_team.id, COLS.STANDINGS.HOMEW] += 1
-            self.standings.at[game.away_team.id, COLS.STANDINGS.AWAYL] += 1
+            self.standings.at[game.home_team.id, cols.standings.W] += 1
+            self.standings.at[game.away_team.id, cols.standings.L] += 1
+            self.standings.at[game.home_team.id, cols.standings.HOMEW] += 1
+            self.standings.at[game.away_team.id, cols.standings.AWAYL] += 1
             if conf:
-                self.standings.at[game.home_team.id, COLS.STANDINGS.CONFW] += 1
-                self.standings.at[game.away_team.id, COLS.STANDINGS.CONFL] += 1
+                self.standings.at[game.home_team.id, cols.standings.CONFW] += 1
+                self.standings.at[game.away_team.id, cols.standings.CONFL] += 1
                 if div:
-                    self.standings.at[game.home_team.id, COLS.STANDINGS.DIVW] += 1
-                    self.standings.at[game.away_team.id, COLS.STANDINGS.DIVL] += 1
+                    self.standings.at[game.home_team.id, cols.standings.DIVW] += 1
+                    self.standings.at[game.away_team.id, cols.standings.DIVL] += 1
             else:
-                self.standings.at[game.home_team.id, COLS.STANDINGS.NON_CONFW] += 1
-                self.standings.at[game.away_team.id, COLS.STANDINGS.NON_CONFL] += 1
+                self.standings.at[game.home_team.id, cols.standings.NON_CONFW] += 1
+                self.standings.at[game.away_team.id, cols.standings.NON_CONFL] += 1
         elif game.home_score < game.away_score:
-            self.standings.at[game.home_team.id, COLS.STANDINGS.L] += 1
-            self.standings.at[game.away_team.id, COLS.STANDINGS.W] += 1
-            self.standings.at[game.home_team.id, COLS.STANDINGS.HOMEL] += 1
-            self.standings.at[game.away_team.id, COLS.STANDINGS.AWAYW] += 1
+            self.standings.at[game.home_team.id, cols.standings.L] += 1
+            self.standings.at[game.away_team.id, cols.standings.W] += 1
+            self.standings.at[game.home_team.id, cols.standings.HOMEL] += 1
+            self.standings.at[game.away_team.id, cols.standings.AWAYW] += 1
             if conf:
-                self.standings.at[game.home_team.id, COLS.STANDINGS.CONFL] += 1
-                self.standings.at[game.away_team.id, COLS.STANDINGS.CONFW] += 1
+                self.standings.at[game.home_team.id, cols.standings.CONFL] += 1
+                self.standings.at[game.away_team.id, cols.standings.CONFW] += 1
                 if div:
-                    self.standings.at[game.home_team.id, COLS.STANDINGS.DIVL] += 1
-                    self.standings.at[game.away_team.id, COLS.STANDINGS.DIVW] += 1
+                    self.standings.at[game.home_team.id, cols.standings.DIVL] += 1
+                    self.standings.at[game.away_team.id, cols.standings.DIVW] += 1
             else:
-                self.standings.at[game.home_team.id, COLS.STANDINGS.NON_CONFL] += 1
-                self.standings.at[game.away_team.id, COLS.STANDINGS.NON_CONFW] += 1
+                self.standings.at[game.home_team.id, cols.standings.NON_CONFL] += 1
+                self.standings.at[game.away_team.id, cols.standings.NON_CONFW] += 1
         else:
-            self.standings.at[game.home_team.id, COLS.STANDINGS.T] += 1
-            self.standings.at[game.away_team.id, COLS.STANDINGS.T] += 1
-            self.standings.at[game.home_team.id, COLS.STANDINGS.HOMET] += 1
-            self.standings.at[game.away_team.id, COLS.STANDINGS.AWAYT] += 1
+            self.standings.at[game.home_team.id, cols.standings.T] += 1
+            self.standings.at[game.away_team.id, cols.standings.T] += 1
+            self.standings.at[game.home_team.id, cols.standings.HOMET] += 1
+            self.standings.at[game.away_team.id, cols.standings.AWAYT] += 1
             if conf:
-                self.standings.at[game.home_team.id, COLS.STANDINGS.CONFT] += 1
-                self.standings.at[game.away_team.id, COLS.STANDINGS.CONFT] += 1
+                self.standings.at[game.home_team.id, cols.standings.CONFT] += 1
+                self.standings.at[game.away_team.id, cols.standings.CONFT] += 1
                 if div:
-                    self.standings.at[game.home_team.id, COLS.STANDINGS.DIVT] += 1
-                    self.standings.at[game.away_team.id, COLS.STANDINGS.DIVT] += 1
+                    self.standings.at[game.home_team.id, cols.standings.DIVT] += 1
+                    self.standings.at[game.away_team.id, cols.standings.DIVT] += 1
             else:
-                self.standings.at[game.home_team.id, COLS.STANDINGS.NON_CONFT] += 1
-                self.standings.at[game.away_team.id, COLS.STANDINGS.NON_CONFT] += 1
+                self.standings.at[game.home_team.id, cols.standings.NON_CONFT] += 1
+                self.standings.at[game.away_team.id, cols.standings.NON_CONFT] += 1
         self._standings_compute_pct()
 
     def _game_add_stats(self, game):
         # for i in range(0, len(COLS.STAT_CATEGORIES.LIST)):
+        #     df = self.stats[COLS.STAT_CATEGORIES.LIST[i]]
+        #     mask = df[]
+        #     self.stats[self.stats]
         #     stats[COLS.STAT_CATEGORIES.LIST[i]] = pandas.DataFrame(
         #         INITS.STAT_TYPES.LIST[i]
         #     )
-        # TODO
         return
 
     def _game_finish(self, game):
@@ -239,9 +241,9 @@ class LeagueSim:
         self._reset_standings()
 
     def _reset_standings(self):
-        self.standings = pandas.DataFrame(INITS.STANDINGS)
-        for id in self.teambase[COLS.TEAMS.ID]:
-            team = self.teambase[COLS.TEAMS.ID][id]
-            series = pandas.Series(INITS.STANDINGS_ROW)
+        self.standings = pandas.DataFrame(inits.standings.FRAME)
+        for id in self.teambase[cols.teams.ID]:
+            team = self.teambase[cols.teams.ID][id]
+            series = pandas.Series(inits.standings.ROW)
             series["NFL Team"] = team.name_at_year(self.cur_season)
             self.standings.loc[id] = series

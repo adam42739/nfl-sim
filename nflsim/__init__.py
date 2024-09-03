@@ -1,2 +1,3 @@
 from nflsim.league_sim import LeagueSim
-from nflsim import nfl_data
+from nflsim import cols
+from nflsim import inits

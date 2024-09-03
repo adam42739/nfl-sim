@@ -1,7 +1,7 @@
-import nflsim.nfl_data as nfl_data
+from nflsim import nfl_data
 import os
 import json
-from nflsim.nfl_data_cols import *
+from nflsim import cols
 
 
 def _get_abbrs():
@@ -12,10 +12,10 @@ def _get_abbrs():
 
 
 def get_teambase():
-    COLUMNS_DEL = [COLS.TEAMS.NAME, COLS.TEAMS.CONF, COLS.TEAMS.DIVISION]
+    COLUMNS_DEL = [cols.teams.NAME, cols.teams.CONF, cols.teams.DIVISION]
     teams = nfl_data.get_teams()
     abbr_match = (
-        teams[[COLS.TEAMS.ABBR, COLS.TEAMS.ID]].set_index(COLS.TEAMS.ABBR).to_dict()
+        teams[[cols.teams.ABBR, cols.teams.ID]].set_index(cols.teams.ABBR).to_dict()
     )
     teams["team_obj"] = teams.apply(_load_team, axis=1)
     teams = teams.drop(COLUMNS_DEL, axis=1)
@@ -26,14 +26,14 @@ def get_teambase():
         teams = []
         years = []
         for x in abbrs[abbrs_key]:
-            if x in teams_dict[COLS.TEAMS.ABBR]:
-                teams.append(teams_dict[COLS.TEAMS.ABBR][x])
+            if x in teams_dict[cols.teams.ABBR]:
+                teams.append(teams_dict[cols.teams.ABBR][x])
                 years.append(abbrs[abbrs_key][x])
         new_team = _agg_teams(teams, years)
         for abbr in abbrs[abbrs_key]:
-            teams_dict[COLS.TEAMS.ABBR][abbr] = new_team
-            if abbr in abbr_match[COLS.TEAMS.ID]:
-                teams_dict[COLS.TEAMS.ID][abbr_match[COLS.TEAMS.ID][abbr]] = new_team
+            teams_dict[cols.teams.ABBR][abbr] = new_team
+            if abbr in abbr_match[cols.teams.ID]:
+                teams_dict[cols.teams.ID][abbr_match[cols.teams.ID][abbr]] = new_team
     return teams_dict
 
 
@@ -60,12 +60,12 @@ class Team:
         return
 
     def from_row(self, row):
-        self.id = row[COLS.TEAMS.ID]
-        self.abbr = row[COLS.TEAMS.ABBR]
-        self.name = row[COLS.TEAMS.NAME]
+        self.id = row[cols.teams.ID]
+        self.abbr = row[cols.teams.ABBR]
+        self.name = row[cols.teams.NAME]
         self.year = [nfl_data.START_YEAR]
-        self.conf = row[COLS.TEAMS.CONF]
-        self.division = row[COLS.TEAMS.DIVISION]
+        self.conf = row[cols.teams.CONF]
+        self.division = row[cols.teams.DIVISION]
         self.players = {}
 
     def name_at_year(self, year):

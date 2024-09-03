@@ -3,7 +3,7 @@ import datetime
 import pandas
 import json
 import os
-from nflsim.nfl_data_cols import *
+from nflsim import cols
 
 ####################################
 # define numpy.float_ to fix
@@ -87,36 +87,36 @@ def get_pbp(years):
 
 def get_schedules(years):
     COLUMNS = [
-        COLS.SCHEDULES.GSIS,
-        COLS.SCHEDULES.SEASON,
-        COLS.SCHEDULES.WEEK,
-        COLS.SCHEDULES.GAME_TYPE,
-        COLS.SCHEDULES.GAMEDAY,
-        COLS.SCHEDULES.WEEKDAY,
-        COLS.SCHEDULES.GAMETIME,
-        COLS.SCHEDULES.HOME_TEAM,
-        COLS.SCHEDULES.AWAY_TEAM,
-        COLS.SCHEDULES.HOME_REST,
-        COLS.SCHEDULES.AWAY_REST,
-        COLS.SCHEDULES.LOCATION,
+        cols.schedules.GSIS,
+        cols.schedules.SEASON,
+        cols.schedules.WEEK,
+        cols.schedules.GAME_TYPE,
+        cols.schedules.GAMEDAY,
+        cols.schedules.WEEKDAY,
+        cols.schedules.GAMETIME,
+        cols.schedules.HOME_TEAM,
+        cols.schedules.AWAY_TEAM,
+        cols.schedules.HOME_REST,
+        cols.schedules.AWAY_REST,
+        cols.schedules.LOCATION,
     ]
     df = nfl_data_py.import_schedules(years)
     df = df[COLUMNS]
-    df[COLS.SCHEDULES.GAMEDAY] = pandas.to_datetime(df[COLS.SCHEDULES.GAMEDAY])
+    df[cols.schedules.GAMEDAY] = pandas.to_datetime(df[cols.schedules.GAMEDAY])
     return df
 
 
 PLAYERS_COLUMNS_KEEP = [
-    COLS.ROSTERS.PLAYER_ID,
-    COLS.ROSTERS.PLAYER_NAME,
-    COLS.ROSTERS.FIRST_NAME,
-    COLS.ROSTERS.LAST_NAME,
-    COLS.ROSTERS.POSITION,
-    COLS.ROSTERS.HEIGHT,
-    COLS.ROSTERS.WEIGHT,
-    COLS.ROSTERS.BIRTH_DATE,
-    COLS.ROSTERS.DRAFT_CLUB,
-    COLS.ROSTERS.ENTRY_YEAR,
+    cols.rosters.PLAYER_ID,
+    cols.rosters.PLAYER_NAME,
+    cols.rosters.FIRST_NAME,
+    cols.rosters.LAST_NAME,
+    cols.rosters.POSITION,
+    cols.rosters.HEIGHT,
+    cols.rosters.WEIGHT,
+    cols.rosters.BIRTH_DATE,
+    cols.rosters.DRAFT_CLUB,
+    cols.rosters.ENTRY_YEAR,
 ]
 
 
@@ -128,23 +128,23 @@ def get_players(rosters, drafts):
         drafts,
         how="left",
         left_on=[
-            COLS.ROSTERS.PLAYER_NAME,
-            COLS.ROSTERS.DRAFT_CLUB,
-            COLS.ROSTERS.ENTRY_YEAR,
-            COLS.ROSTERS.POSITION,
+            cols.rosters.PLAYER_NAME,
+            cols.rosters.DRAFT_CLUB,
+            cols.rosters.ENTRY_YEAR,
+            cols.rosters.POSITION,
         ],
         right_on=[
-            COLS.DRAFTS.PFR_PLAYER_NAME,
-            COLS.DRAFTS.TEAM,
-            COLS.DRAFTS.SEASON,
-            COLS.DRAFTS.POSITION,
+            cols.drafts.PFR_PLAYER_NAME,
+            cols.drafts.TEAM,
+            cols.drafts.SEASON,
+            cols.drafts.POSITION,
         ],
     )
     COLUMNS_DROP = [
-        COLS.ROSTERS.DRAFT_CLUB,
-        COLS.ROSTERS.ENTRY_YEAR,
-        COLS.DRAFTS.PFR_PLAYER_NAME,
-        COLS.DRAFTS.TEAM,
+        cols.rosters.DRAFT_CLUB,
+        cols.rosters.ENTRY_YEAR,
+        cols.drafts.PFR_PLAYER_NAME,
+        cols.drafts.TEAM,
     ]
     df = df.drop(COLUMNS_DROP, axis=1)
     return df
@@ -154,10 +154,10 @@ ROSTER_CACHE_PATH = "/roster_cache/"
 
 
 ROSTERS_COLUMNS_KEEP = [
-    COLS.ROSTERS.TEAM,
-    COLS.ROSTERS.SEASON,
-    COLS.ROSTERS.WEEK,
-    COLS.ROSTERS.PLAYER_ID,
+    cols.rosters.TEAM,
+    cols.rosters.SEASON,
+    cols.rosters.WEEK,
+    cols.rosters.PLAYER_ID,
 ]
 
 
@@ -203,18 +203,18 @@ def get_rosters(years):
             path = os.path.dirname(__file__) + ROSTER_CACHE_PATH + str(year) + ".csv"
             dfs.append(pandas.read_csv(path))
     df = pandas.concat(dfs, ignore_index=True, sort=False)
-    df[COLS.ROSTERS.BIRTH_DATE] = pandas.to_datetime(df[COLS.ROSTERS.BIRTH_DATE])
+    df[cols.rosters.BIRTH_DATE] = pandas.to_datetime(df[cols.rosters.BIRTH_DATE])
     _write_roster_metadata(metadata)
     return df
 
 
 def get_teams():
     COLUMNS_KEEP = [
-        COLS.TEAMS.ABBR,
-        COLS.TEAMS.NAME,
-        COLS.TEAMS.ID,
-        COLS.TEAMS.CONF,
-        COLS.TEAMS.DIVISION,
+        cols.teams.ABBR,
+        cols.teams.NAME,
+        cols.teams.ID,
+        cols.teams.CONF,
+        cols.teams.DIVISION,
     ]
     df = nfl_data_py.import_team_desc()
     df = df[COLUMNS_KEEP]
@@ -223,12 +223,12 @@ def get_teams():
 
 def get_drafts(years):
     COLUMNS = [
-        COLS.DRAFTS.SEASON,
-        COLS.DRAFTS.ROUND,
-        COLS.DRAFTS.PICK,
-        COLS.DRAFTS.PFR_PLAYER_NAME,
-        COLS.DRAFTS.POSITION,
-        COLS.DRAFTS.TEAM,
+        cols.drafts.SEASON,
+        cols.drafts.ROUND,
+        cols.drafts.PICK,
+        cols.drafts.PFR_PLAYER_NAME,
+        cols.drafts.POSITION,
+        cols.drafts.TEAM,
     ]
     df = nfl_data_py.import_draft_picks(years)
     df = df[COLUMNS]

@@ -1,0 +1,5 @@
+ABBR = "team_abbr"
+NAME = "team_name"
+ID = "team_id"
+CONF = "team_conf"
+DIVISION = "team_division"
