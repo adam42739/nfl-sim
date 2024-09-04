@@ -1,5 +1,6 @@
 from nflsim import cols
 from nflsim import inits
+from nflsim import models
 
 WEEK1_REST = 7
 
@@ -53,13 +54,13 @@ class GameSim:
         self.gametime = row[cols.schedules.GAMETIME]
         self.location = row[cols.schedules.LOCATION]
 
+    def _coin_toss(self):
+        self.return_first_kick = models.coin_toss.model(self.home_team, self.away_team)
+
     def sim(self):
         self.stats = inits.stats.stats_init.init()
-        id = list(self.home_team.players.keys())[0]
-        self.stats[cols.stats.categories.PASSING].loc[
-            id
-        ] = inits.stats.passing.ROW.copy()
-        self.stats[cols.stats.categories.PASSING].at[id, cols.stats.passing.GP] = 5
-        print(self.stats[cols.stats.categories.PASSING].head())
         self.time = GameSimTime()
+        self.home_score = 0
+        self.away_score = 0
+        self._coin_toss()
         # sim game
