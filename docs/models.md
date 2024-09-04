@@ -23,331 +23,220 @@
 
 ## Extra Point Model
 
-`model_ep()`
-
-### Parameters:
+`model_xp()`
 
 ### Returns:
 
-&emsp;**`made`: _bool_**
+> **`made`: _bool_**
 
-&emsp;&emsp;A boolean indicator for if the extra point was made.
+> **`penalty`: _bool_**
+
+> **`penalty_yards`: _float_**
 
 ## Field Goal Model
 
 `model_fg()`
 
-### Parameters:
-
 ### Returns:
 
-&emsp;**`made`: _bool_**
+> **`made`: _bool_**
 
-&emsp;&emsp;A boolean indicator for if the field goal was made.
+> **`penalty`: _bool_**
 
-&emsp;**`time`: _float_**
+> **`penalty_yards`: _float_**
 
-&emsp;&emsp;The time in seconds used during the field goal play.
+> **`time`: _float_**
 
 ## Kick Distance Model
 
 `model_kd()`
 
-### Parameters:
-
 ### Returns:
 
-&emsp;**`distance`: _float_**
+> **`distance`: _float_**
 
-&emsp;&emsp;The distance in yards the ball was kicked.
+> **`penalty`: _bool_**
+
+> **`penalty_yards`: _float_**
 
 ## Kick Return Decision Model
 
-`model_krd() -> return (bool)`
-
-### Parameters:
+`model_krd()`
 
 ### Returns:
 
-&emsp;**`_return`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the kick was returned.
+> **`ret`: _bool_**
 
 ## Kick Return Fumble Model
 
-`model_krf() -> yards (float), td (bool), time (float)`
-
-### Parameters:
+`model_krf()`
 
 ### Returns:
 
-&emsp;**`yards`: _float_**
+> **`yards`: _float_**
 
-&emsp;&emsp;Distance in yards the fumble was returned by kicking team.
+> **`td`: _bool_**
 
-&emsp;**`td`: _bool_**
+> **`penalty`: _bool_**
 
-&emsp;&emsp;A boolean indicator for if the kicking team returned the fumble for a touchdown.
+> **`penalty_yards`: _float_**
 
-&emsp;**`time`: _float_**
-
-&emsp;&emsp;The time used during the fumble return.
+> **`time`: _float_**
 
 ## Kick Return Yards Model
 
 `model_kry()`
 
-### Parameters:
-
 ### Returns:
 
-&emsp;**`yards`: _float_**
+> **`yards`: _float_**
 
-&emsp;&emsp;The distance in yards the ball was returned.
+> **`td`: _bool_**
 
-&emsp;**`td`: _bool_**
+> **`penalty`: _bool_**
 
-&emsp;&emsp;A boolean indicator for if the ball was returned for a touchdown.
+> **`penalty_yards`: _float_**
 
-&emsp;**`time`: _float_**
+> **`time`: _float_**
 
-&emsp;&emsp;The time used during the kick return.
-
-&emsp;**`fumble`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the ball was fumbled and lost.
+> **`fumble`: _bool_**
 
 ## Passer Fumble Return Model
 
 `model_pfr()`
 
-### Parameters
+### Returns:
 
-### Returns
+> **`yards`: _float_**
 
-&emsp;**`yards`: _float_**
+> **`td`: _bool_**
 
-&emsp;&emsp;The net yards gained by the defense on the fumble.
-
-&emsp;**`td`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the fumble resulted in a touchdown for the defense.
-
-&emsp;**`time`: _float_**
-
-&emsp;&emsp;The time used during the fumble return play.
+> **`time`: _float_**
 
 ## Passer Scramble Fumble Model
 
 `model_ppscrmf()`
 
-### Parameters
+### Returns:
 
-### Returns
+> **`yards`: _float_**
 
-&emsp;**`yards`: _float_**
+> **`td`: _bool_**
 
-&emsp;&emsp;The yards gained by the defense on the fumble return.
-
-&emsp;**`td`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the fumble return resulted in a touchdown.
-
-&emsp;**`time`: \_float**
-
-&emsp;&emsp;The time used during the fumble return play.
+> **`time`: \_float**
 
 ## Passer Scramble Model
 
 `model_ppscrm()`
 
-### Parameters
+### Returns:
 
-### Returns
+> **`yards`: _float_**
 
-&emsp;**`yards`: _float_**
+> **`td`: _bool_**
 
-&emsp;&emsp;The yards gained/loss by the passer.
+> **`fumble`: _bool_**
 
-&emsp;**`td`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the play resulted in a touchdown.
-
-&emsp;**`fumble`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the passer loses a fumble.
-
-&emsp;**`time`: _float_**
-
-&emsp;&emsp;The time used during the scramble play.
+> **`time`: _float_**
 
 ## Passer Throw Model
 
 `model_ppt()`
 
-### Parameters
+### Returns:
 
-### Returns
+> **`yards`: _float_**
 
-&emsp;**`yards`: _float_**
+> **`complete`: _bool_**
 
-&emsp;&emsp;The yards of the pass.
+> **`td`: _bool_**
 
-&emsp;**`complete`: _bool_**
+> **`int`: _bool_**
 
-&emsp;&emsp;A boolean indicator for if the pass was completed.
-
-&emsp;**`td`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the completed resulted in a touchdown.
-
-&emsp;**`int`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the pass was intercepted.
-
-&emsp;**`time`: _float_**
-
-&emsp;&emsp;The time used during the pass play.
+> **`time`: _float_**
 
 ## Pass Play Branch Model
 
 `model_ppbrnch()`
 
-### Parameters
+### Returns:
 
-### Returns
+> **`sack`: _bool_**
 
-&emsp;**`sack`: _bool_**
+> **`fumble`: _bool_**
 
-&emsp;&emsp;A boolean indicator for if the play resulted in a sack.
-
-&emsp;**`fumble`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the play resulted in a lost fumble.
-
-&emsp;**`scramble`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the play resulted in a scramble.
+> **`scramble`: _bool_**
 
 ## Pass Play Sack Model
 
 `model_ppsck()`
 
-### Parameters
+### Returns:
 
-### Returns
+> **`safety`: _bool_**
 
-&emsp;**`safety`: _bool_**
+> **`yards`: _float_**
 
-&emsp;&emsp;A boolean indicator for if the sack resulted in a safety.
-
-&emsp;**`yards`: _float_**
-
-&emsp;&emsp;The yards sacked on the play.
-
-&emsp;**`time`: _float_**
-
-&emsp;&emsp;The time used during the play.
+> **`time`: _float_**
 
 ## Punt Block Model
 
 `model_pntb()`
 
-### Parameters:
-
 ### Returns:
 
-&emsp;**`yards`: _float_**
+> **`yards`: _float_**
 
-&emsp;&emsp;The yards returned on the punt block.
+> **`td`: _bool_**
 
-&emsp;**`td`: _bool_**
-
-&emsp;&emsp;A binary indicator for if the punt block resulting in a touchdown.
-
-&emsp;**`time`: _float_**
-
-&emsp;&emsp;The time used on the punt block play.
+> **`time`: _float_**
 
 ## Punt Model
 
 `model_pnt()`
 
-### Parameters:
-
 ### Returns:
 
-&emsp;**`blocked`: _bool_**
+> **`blocked`: _bool_**
 
-&emsp;&emsp;A boolean indicator for if the punt was blocked.
+> **`distance`: _float_**
 
-&emsp;**`distance`: _float_**
+> **`touchback`: _bool_**
 
-&emsp;&emsp;The punt distance in yards.
-
-&emsp;**`touchback`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the punt was downed in the endzone.
-
-&emsp;**`time`: _float_**
-
-&emsp;&emsp;The used for the punt.
+> **`time`: _float_**
 
 ## Punt Return Decision Model
 
 `model_pntrd()`
 
-### Parameters:
-
 ### Returns:
 
-&emsp;**`_return`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the punt was returned.
+> **`_return`: _bool_**
 
 ## Punt Return Fumble Model
 
-### Parameters
+### Returns:
 
-### Returns
+> **`yards`: _float_**
 
-&emsp;**`yards`: _float_**
+> **`td`: _bool_**
 
-&emsp;&emsp;The net yards on the punt return fumble.
-
-&emsp;**`td`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the punt return fumble resulted in a touchdown.
-
-&emsp;**`time`: _float_**
-
-&emsp;&emsp;The time used on the punt return fumble play.
+> **`time`: _float_**
 
 ## Punt Return Yards Model
 
 `model_pntry()`
 
-### Parameters
+### Returns:
 
-### Returns
+> **`yards`: _float_**
 
-&emsp;**`yards`: _float_**
+> **`fumble`: _bool_**
 
-&emsp;&emsp;The yards returned on the punt.
-
-&emsp;**`fumble`: _bool_**
-
-&emsp;&emsp;A boolean indicator for if the punt return resulted in a fumble lost.
-
-&emsp;**`time`: _float_**
-
-&emsp;&emsp;The time used during the punt return play.
+> **`time`: _float_**
 
 ## Receiver YAC Model
 
 `model_ryac()`
 
-### Parameters
-
-### Returns
-
+### Returns:

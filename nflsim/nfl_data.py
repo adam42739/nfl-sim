@@ -178,8 +178,9 @@ def _cache_rosters(year):
 def _get_rosters_metadata():
     path = os.path.dirname(__file__) + ROSTER_CACHE_PATH + "metadata.json"
     metadata = {}
-    with open(path, "r") as file:
-        metadata = json.load(file)
+    if os.path.exists(path):
+        with open(path, "r") as file:
+            metadata = json.load(file)
     return metadata
 
 
