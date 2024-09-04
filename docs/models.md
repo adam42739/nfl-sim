@@ -27,11 +27,11 @@
 
 ### Returns:
 
-**`made`: _bool_**
+> **`made`: _bool_**
 
-**`penalty`: _bool_**
+> **`penalty`: _bool_**
 
-**`penalty_yards`: _float_**
+> **`penalty_yards`: _float_**
 
 ## Field Goal Model
 
@@ -39,13 +39,13 @@
 
 ### Returns:
 
-**`made`: _bool_**
+> **`made`: _bool_**
 
-**`penalty`: _bool_**
+> **`penalty`: _bool_**
 
-**`penalty_yards`: _float_**
+> **`penalty_yards`: _float_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Kick Distance Model
 
@@ -53,11 +53,11 @@
 
 ### Returns:
 
-**`distance`: _float_**
+> **`distance`: _float_**
 
-**`penalty`: _bool_**
+> **`penalty`: _bool_**
 
-**`penalty_yards`: _float_**
+> **`penalty_yards`: _float_**
 
 ## Kick Return Decision Model
 
@@ -65,7 +65,7 @@
 
 ### Returns:
 
-**`ret`: _bool_**
+> **`ret`: _bool_**
 
 ## Kick Return Fumble Model
 
@@ -73,15 +73,15 @@
 
 ### Returns:
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`td`: _bool_**
+> **`td`: _bool_**
 
-**`penalty`: _bool_**
+> **`penalty`: _bool_**
 
-**`penalty_yards`: _float_**
+> **`penalty_yards`: _float_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Kick Return Yards Model
 
@@ -89,17 +89,17 @@
 
 ### Returns:
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`td`: _bool_**
+> **`td`: _bool_**
 
-**`penalty`: _bool_**
+> **`penalty`: _bool_**
 
-**`penalty_yards`: _float_**
+> **`penalty_yards`: _float_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
-**`fumble`: _bool_**
+> **`fumble`: _bool_**
 
 ## Passer Fumble Return Model
 
@@ -107,11 +107,11 @@
 
 ### Returns:
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`td`: _bool_**
+> **`td`: _bool_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Passer Scramble Fumble Model
 
@@ -119,11 +119,11 @@
 
 ### Returns:
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`td`: _bool_**
+> **`td`: _bool_**
 
-**`time`: \_float**
+> **`time`: \_float**
 
 ## Passer Scramble Model
 
@@ -131,13 +131,13 @@
 
 ### Returns:
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`td`: _bool_**
+> **`td`: _bool_**
 
-**`fumble`: _bool_**
+> **`fumble`: _bool_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Passer Throw Model
 
@@ -145,15 +145,15 @@
 
 ### Returns:
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`complete`: _bool_**
+> **`complete`: _bool_**
 
-**`td`: _bool_**
+> **`td`: _bool_**
 
-**`int`: _bool_**
+> **`int`: _bool_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Pass Play Branch Model
 
@@ -161,11 +161,11 @@
 
 ### Returns:
 
-**`sack`: _bool_**
+> **`sack`: _bool_**
 
-**`fumble`: _bool_**
+> **`fumble`: _bool_**
 
-**`scramble`: _bool_**
+> **`scramble`: _bool_**
 
 ## Pass Play Sack Model
 
@@ -173,11 +173,11 @@
 
 ### Returns:
 
-**`safety`: _bool_**
+> **`safety`: _bool_**
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Punt Block Model
 
@@ -185,11 +185,11 @@
 
 ### Returns:
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`td`: _bool_**
+> **`td`: _bool_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Punt Model
 
@@ -197,13 +197,13 @@
 
 ### Returns:
 
-**`blocked`: _bool_**
+> **`blocked`: _bool_**
 
-**`distance`: _float_**
+> **`distance`: _float_**
 
-**`touchback`: _bool_**
+> **`touchback`: _bool_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Punt Return Decision Model
 
@@ -211,17 +211,17 @@
 
 ### Returns:
 
-**`_return`: _bool_**
+> **`_return`: _bool_**
 
 ## Punt Return Fumble Model
 
 ### Returns:
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`td`: _bool_**
+> **`td`: _bool_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Punt Return Yards Model
 
@@ -229,11 +229,11 @@
 
 ### Returns:
 
-**`yards`: _float_**
+> **`yards`: _float_**
 
-**`fumble`: _bool_**
+> **`fumble`: _bool_**
 
-**`time`: _float_**
+> **`time`: _float_**
 
 ## Receiver YAC Model
 
