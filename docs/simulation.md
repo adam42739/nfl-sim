@@ -1,105 +1,111 @@
-# nfl-sim
+# Contents
 
-## Introduction
+- [Contents](#contents)
+- [Game Progression](#game-progression)
+  - [Play Decision](#play-decision)
+  - [Kickoff](#kickoff)
+  - [Punt](#punt)
+  - [Field Goal](#field-goal)
+  - [Pass](#pass)
+  - [Rush](#rush)
 
+# Game Progression
 
+Models are stylized in all lowercase with underscores in a square box.
 
-## Contents
+```mermaid
+flowchart TD
+A[this_is_a_model]
+```
 
-- [nfl-sim](#nfl-sim)
-  - [Introduction](#introduction)
-  - [Contents](#contents)
-  - [Game Progression](#game-progression)
-  - [Plays](#plays)
-    - [Pass](#pass)
-    - [Rush](#rush)
-    - [Field Goal](#field-goal)
-    - [Kickoff](#kickoff)
-    - [Punt](#punt)
-    - [Extra Point](#extra-point)
-    - [2-Point Conversion](#2-point-conversion)
-    - [Saftey Punt](#saftey-punt)
+Independent flow paths are stylized with leading capitals and a round box.
 
-## Game Progression
+```mermaid
+flowchart TD
+A(Independent Flow Path)
+```
 
-## Plays
+The end of play state is stylized in all caps with a diamond box.
 
-### Pass
+```mermaid
+flowchart TD
+A{END PLAY}
+```
 
-1. [Pass Play Branch Model](models.md#pass-play-branch-model)
+## Play Decision
 
-   **If** `sack`:
+```mermaid
+flowchart TD
+A[play_decision] --> |punt| B(Punt)
+B --> C{END PLAY}
+A --> |field goal| D(Field Goal)
+D --> C
+A --> |pass| E(Pass)
+E --> C
+A --> |rush| F(Rush)
+F --> C
+A --> |QB kneel| G[qb_kneel]
+G --> C
+A --> |QB spike| H[qb_spike]
+H --> C
+```
 
-   1. [Pass Play Sack Model](models.md#pass-play-sack-model)
+## Kickoff
 
-   **Else if** `fumble`:
+```mermaid
+flowchart TD
+A[kickoff]
+A --> |returned| B[kick_return]
+A --> |not returned| C{END PLAY}
+A --> |recovered by kicking team| D[kick_recovery]
+D --> C
+B --> C
+```
 
-   1. [Passer Fumble Return Model](models.md#passer-fumble-return-model)
+## Punt
 
-   **Else if** `scramble`:
+```mermaid
+flowchart TD
+A[punt]
+A --> |blocked| B{END PLAY}
+A --> |returned| C[punt_return]
+A --> |not returned| B
+A --> |recovered by punting team| D[punt_recovery]
+D --> B
+C --> B
+```
 
-   1. [Passer Scramble Model](models.md#passer-scramble-model)
+## Field Goal
 
-      **If** `fumble`:
+```mermaid
+flowchart TD
+A[field_goal] --> B{END PLAY}
+A --> |recovered| C[field_goal_return]
+C --> B
+```
 
-      1. [Passer Scramble Fumble Model](models.md#passer-scramble-fumble-model)
+## Pass
 
-   **Else**:
+```mermaid
+flowchart TD
+A[pass] --> |sack| B{END PLAY}
+A --> |scramble| E[qb_scramble]
+E --> |fumble| C
+E --> B
+A --> |fumble| C[turnover_return]
+C --> B
+A --> |complete| D[reception]
+A --> |incomplete| B
+D --> |fumble| C
+D --> B
+A --> |interception| C
+```
 
-   1. [Passer Throw Model](models.md#passer-throw-model)
+## Rush
 
-      **If** `complete`:
-
-      1. [Receiver YAC Model](models.md#receiver-yac-model)
-
-
-      **Else if** `int`:
-
-      2. [Passing Interction Return Model]()
-
-### Rush
-
-### Field Goal
-
-1. [Field Goal Model](models.md#field-goal-model).
-
-### Kickoff
-
-1. [Kick Distance Model](models.md#kick-distance-model).
-2. [Kick Return Decision Model](models.md#kick-return-decision-model).
-
-   **If** `_return`:
-
-   1. [Kick Return Yards Model](models.md#kick-return-yards-model).
-
-      **If** `fumble`:
-
-      1. [Kick Return Fumble Model](models.md#kick-return-fumble-model).
-
-### Punt
-
-1. [Punt Model](models.md#punt-model).
-
-   **If** `blocked`:
-
-   1. [Punt Block Model](models.md#punt-block-model).
-
-   **Else**:
-
-   1. [Punt Return Decision Model](models.md#punt-return-decision-model).
-
-      **If** `_return`:
-
-      1. [Punt Return Yards Model](models.md#punt-return-yards-model)
-
-         **If** `fumble`:
-
-         1. [Punt Return Fumble Model](models.md#punt-return-fumble-model)
-
-### Extra Point
-
-1. [Extra Point Model](models.md#extra-point-model)
-
-### 2-Point Conversion
-
-### Saftey Punt
+```mermaid
+flowchart TD
+A[rush] --> B{END PLAY}
+A --> |fumble| C[turnover_return]
+C --> B
+```
