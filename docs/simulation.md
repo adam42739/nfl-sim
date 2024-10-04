@@ -36,18 +36,29 @@ A{END PLAY}
 
 ```mermaid
 flowchart TD
-A[play_decision] --> |punt| B(Punt)
-B --> C{END PLAY}
-A --> |field goal| D(Field Goal)
-D --> C
-A --> |pass| E(Pass)
-E --> C
-A --> |rush| F(Rush)
-F --> C
-A --> |QB kneel| G[qb_kneel]
-G --> C
-A --> |QB spike| H[qb_spike]
-H --> C
+A[play_decision]
+B(Punt)
+C(Field Goal)
+D(Pass)
+E(Rush)
+F[qb_kneel]
+G[qb_spike]
+H{END PLAY}
+
+A --> B
+A --> C
+A --> D
+A --> E
+A --> F
+A --> G
+
+B --> H
+C --> H
+D --> H
+E --> H
+F --> H
+G --> H
+
 ```
 
 ## Kickoff
@@ -55,11 +66,16 @@ H --> C
 ```mermaid
 flowchart TD
 A[kickoff]
-A --> |returned| B[kick_return]
-A --> |not returned| C{END PLAY}
-A --> |recovered by kicking team| D[kick_recovery]
-D --> C
-B --> C
+B[kick_recovery]
+C[kick_return]
+D{END PLAY}
+
+A --> |recovered by kicking team| B
+A --> |returned| C
+A --> |fair catch/touchback| D
+
+B --> D
+C --> D
 ```
 
 ## Punt
@@ -67,45 +83,62 @@ B --> C
 ```mermaid
 flowchart TD
 A[punt]
-A --> |blocked| B{END PLAY}
-A --> |returned| C[punt_return]
-A --> |not returned| B
-A --> |recovered by punting team| D[punt_recovery]
-D --> B
-C --> B
+B[punt_return]
+C[punt_recovery]
+D{END PLAY}
+
+A --> |returned| B
+A --> |recovery by punting team| C
+A --> |fair catch/touchback|D
+
+B --> D
+C --> D
 ```
 
 ## Field Goal
 
 ```mermaid
 flowchart TD
-A[field_goal] --> B{END PLAY}
-A --> |recovered| C[field_goal_return]
-C --> B
+A[field_goal]
+B[field_goal_return]
+C{END PLAY}
+
+A --> |recovered| B
+B --> C
+A --> |made/missed/blocked| C
 ```
 
 ## Pass
 
 ```mermaid
 flowchart TD
-A[pass] --> |sack| B{END PLAY}
-A --> |scramble| E[qb_scramble]
-E --> |fumble| C
-E --> B
-A --> |fumble| C[turnover_return]
-C --> B
-A --> |complete| D[reception]
-A --> |incomplete| B
-D --> |fumble| C
-D --> B
-A --> |interception| C
+A[pass]
+B[turnover_return]
+C[reception]
+D[qb_scramble]
+E{END PLAY}
+
+A --> |interception/fumble| B
+A --> |completion| C
+A --> |scramble| D
+A --> |incomplete/sack| E
+
+C --> |fumble| B
+D --> |fumble| B
+C --> E
+B --> E
+D --> E
 ```
 
 ## Rush
 
 ```mermaid
 flowchart TD
-A[rush] --> B{END PLAY}
-A --> |fumble| C[turnover_return]
-C --> B
+A[rush]
+B[turnover_return]
+C{END PLAY}
+
+A --> |fumble| B
+A --> C
+B --> C
 ```
