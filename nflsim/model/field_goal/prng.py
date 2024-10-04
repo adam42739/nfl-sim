@@ -4,8 +4,14 @@ import random
 
 
 class PRNG(Model):
+    """
+    PRNG
+    ----
+
+    Field goal model that determines outcomes randomly according to a set of given weights.
+    """
     def __init__(self):
-        return
+        pass
 
     def build(
         self,
@@ -17,7 +23,7 @@ class PRNG(Model):
         max_yrec: int,
     ):
         """
-        Build the random field goal model.
+        Build the PRNG field goal model.
 
         Parameters
         ----------

@@ -6,6 +6,9 @@ YARDS_RETURNED = "yards_returned"
 
 
 class Model:
+    def __init__(self):
+        pass
+
     def build(self):
         pass
 
