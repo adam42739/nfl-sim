@@ -3,6 +3,25 @@ import footballframe
 import nfldpw.players.cols as cols
 from . import cleaning
 import pickle
+import json
+import os
+
+
+def load_metadata(cache_path: str) -> dict:
+    path = cache_path + "metadata-player.json"
+    if os.path.exists(path):
+        mdata = {}
+        with open(path, "r") as file:
+            mdata = json.load(file)
+        return mdata
+    else:
+        return []
+
+
+def dump_metadata(cache_path: str, mdata: dict):
+    path = cache_path + "metadata-player.json"
+    with open(path, "w") as file:
+        json.dump(mdata, file)
 
 
 def _pickle_path(pid: str, cache_path: str) -> str:
@@ -33,5 +52,8 @@ def new(
         cleaning.int_or_none(player_series[cols.Weight.header]),
     )
     if cache_path:
+        mdata = load_metadata(cache_path)
         dump(player, pid, cache_path)
+        mdata.append(pid)
+        dump_metadata(cache_path, mdata)
     return player
