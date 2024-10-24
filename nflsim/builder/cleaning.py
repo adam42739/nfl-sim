@@ -1,22 +1,46 @@
 import datetime
+import math
 
-
-def str_or_none(string: str) -> str:
-    if string == "None" or string == "NaN" or string == None:
-        return None
-    else:
+def str_or_none(string) -> str:
+    string = str(string)
+    if (
+        isinstance(string, str)
+        and string != "None"
+        and string != "NaN"
+        and string != "nan"
+        and string != None
+        and string != math.nan
+    ):
         return str(string)
-
-
-def datetime_or_none(string: str, format: str) -> datetime.datetime:
-    if string == "None" or string == "NaN" or string == None:
-        return None
     else:
+        return None
+
+
+def datetime_or_none(string, format: str) -> datetime.datetime:
+    string = str(string)
+    if (
+        isinstance(string, str)
+        and string != "None"
+        and string != "NaN"
+        and string != "nan"
+        and string != None
+        and string != math.nan
+    ):
         return datetime.datetime.strptime(string, format)
-
-
-def int_or_none(string: str) -> int:
-    if string == "None" or string == "NaN" or string == None:
-        return None
     else:
-        return int(string)
+        return
+
+
+def int_or_none(string) -> int:
+    string = str(string)
+    if (
+        isinstance(string, str)
+        and string != "None"
+        and string != "NaN"
+        and string != "nan"
+        and string != None
+        and string != math.nan
+    ):
+        return int(float(string))
+    else:
+        return
